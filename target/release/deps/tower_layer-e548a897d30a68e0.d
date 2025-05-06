@@ -1,0 +1,11 @@
+C:\Users\smell\OneDrive\Desktop\smellycoinr\target\release\deps\libtower_layer-e548a897d30a68e0.rmeta: C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src/lib.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\identity.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\layer_fn.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\stack.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\tuple.rs
+
+C:\Users\smell\OneDrive\Desktop\smellycoinr\target\release\deps\libtower_layer-e548a897d30a68e0.rlib: C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src/lib.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\identity.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\layer_fn.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\stack.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\tuple.rs
+
+C:\Users\smell\OneDrive\Desktop\smellycoinr\target\release\deps\tower_layer-e548a897d30a68e0.d: C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src/lib.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\identity.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\layer_fn.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\stack.rs C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\tuple.rs
+
+C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src/lib.rs:
+C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\identity.rs:
+C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\layer_fn.rs:
+C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\stack.rs:
+C:\Users\smell\.cargo\registry\src\index.crates.io-6f17d22bba15001f\tower-layer-0.3.3\src\tuple.rs:

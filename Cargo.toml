@@ -1,0 +1,53 @@
+[package]
+name = "smellycoin"
+version = "0.1.0"
+edition = "2021"
+authors = ["SmellyCoin Team"]
+description = "A high-performance, GPU-mineable cryptocurrency built with KAWPOW algorithm"
+repository = "https://github.com/smellycoin/smellycoinr"
+license = "MIT"
+
+[workspace]
+members = [
+    "core",
+    "consensus",
+    "crypto",
+    "mining",
+    "network",
+    "rpc",
+    "storage",
+    "util",
+]
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+config = "0.13"
+env_logger = "0.10"
+log = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.32", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+bs58 = "0.5"
+hex = "0.4"
+
+smellycoin-core = { path = "core" }
+smellycoin-consensus = { path = "consensus" }
+smellycoin-crypto = { path = "crypto" }
+smellycoin-mining = { path = "mining" }
+smellycoin-network = { path = "network" }
+smellycoin-rpc = { path = "rpc" }
+smellycoin-storage = { path = "storage" }
+smellycoin-util = { path = "util" }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.dev]
+opt-level = 0
+debug = true

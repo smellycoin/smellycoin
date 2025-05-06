@@ -1,0 +1,16 @@
+[package]
+name = "smellycoin-core"
+version = "0.1.0"
+edition = "2021"
+authors = ["SmellyCoin Team"]
+description = "Core types and data structures for SmellyCoin"
+
+[dependencies]
+bytes = "1.5"
+chrono = "0.4"
+hex = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+sha2 = "0.10"
+thiserror = "1.0"
+smellycoin-crypto = { path = "../crypto" }
+smellycoin-util = { path = "../util" }

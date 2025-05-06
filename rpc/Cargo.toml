@@ -1,0 +1,26 @@
+[package]
+name = "smellycoin-rpc"
+version = "0.1.0"
+edition = "2021"
+authors = ["SmellyCoin Team"]
+description = "JSON-RPC API for SmellyCoin"
+
+[dependencies]
+async-trait = "0.1"
+axum = { version = "0.6", features = ["json"] }
+futures = "0.3"
+log = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+tokio = { version = "1.32", features = ["full"] }
+tower = "0.4"
+tower-http = { version = "0.4", features = ["cors"] }
+
+smellycoin-core = { path = "../core" }
+smellycoin-consensus = { path = "../consensus" }
+smellycoin-crypto = { path = "../crypto" }
+smellycoin-mining = { path = "../mining" }
+smellycoin-network = { path = "../network" }
+smellycoin-storage = { path = "../storage" }
+smellycoin-util = { path = "../util" }

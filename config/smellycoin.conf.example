@@ -1,0 +1,150 @@
+# SmellyCoin Configuration File Example
+#
+# This is an example configuration file for SmellyCoin nodes.
+# Copy this file to 'smellycoin.conf' in your data directory and modify as needed.
+
+#=============================================================================
+# Network Configuration
+#=============================================================================
+
+# Network to connect to (mainnet, testnet, regtest)
+network=mainnet
+
+# Listen for incoming connections
+listen=1
+
+# Bind to specific address (default: 0.0.0.0)
+#bind=127.0.0.1
+
+# Port to listen for incoming connections (default: 8333 for mainnet, 18333 for testnet)
+port=8333
+
+# Maximum number of inbound connections
+maxconnections=125
+
+# Maximum number of outbound connections
+maxoutbound=8
+
+# Connect to these nodes on startup
+#connect=192.168.1.1:8333
+#connect=seed1.smellycoin.org:8333
+
+# Add these nodes to the address manager
+#addnode=192.168.1.2:8333
+#addnode=seed2.smellycoin.org:8333
+
+# Specify your external IP address
+#externalip=1.2.3.4
+
+# Use UPnP to map the listening port
+upnp=1
+
+# Connect through SOCKS5 proxy
+#proxy=127.0.0.1:9050
+
+# Connect through Tor hidden service
+#onion=127.0.0.1:9050
+
+#=============================================================================
+# Blockchain Configuration
+#=============================================================================
+
+# Data directory (default: ~/.smellycoin)
+#datadir=/path/to/data
+
+# Maximum database cache size in MB
+dbcache=450
+
+# Maintain a full transaction index
+txindex=0
+
+# Prune blockchain data (0 = disable pruning, >550 = target size in MB)
+prune=0
+
+# Checkpoints policy (strict, advisory, permissive)
+checkpoints=strict
+
+#=============================================================================
+# Mining Configuration
+#=============================================================================
+
+# Enable mining
+mine=0
+
+# Mining address to receive block rewards
+#miningaddress=smc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4
+
+# Number of mining threads (CPU mining only)
+threads=1
+
+# Enable Stratum mining server
+stratum=0
+
+# Stratum server bind address
+stratumbind=127.0.0.1:3333
+
+#=============================================================================
+# JSON-RPC Configuration
+#=============================================================================
+
+# Enable JSON-RPC server
+rpc=1
+
+# JSON-RPC bind address
+rpcbind=127.0.0.1:8332
+
+# Allow JSON-RPC connections from these IP addresses
+rpcallowip=127.0.0.1
+#rpcallowip=192.168.1.0/24
+
+# Username and password for JSON-RPC connections
+#rpcuser=username
+#rpcpassword=password
+
+# Maximum number of concurrent RPC connections
+rpcthreads=4
+
+# Allow CORS requests from these domains
+#rpccors=*
+
+#=============================================================================
+# Debug & Logging Configuration
+#=============================================================================
+
+# Debug categories (net, mempool, rpc, etc.)
+#debug=net
+#debug=mempool
+
+# Log file location (default: debug.log in the data directory)
+#debuglogfile=/path/to/debug.log
+
+# Verbosity level (0-5, where 5 is most verbose)
+verbosity=3
+
+#=============================================================================
+# Advanced Configuration
+#=============================================================================
+
+# Maximum memory pool size in MB
+maxmempool=300
+
+# Minimum fee rate in SMC/kB for transactions to be accepted
+minrelaytxfee=0.00001
+
+# Minimum fee rate in SMC/kB for transactions to be included in blocks
+mintxfee=0.00001
+
+# Maximum size of a single transaction in bytes
+maxtxsize=100000
+
+# Maximum size of a block in bytes
+maxblocksize=4000000
+
+# Maximum script verification threads
+scriptthreads=0
+
+# Specify a non-default genesis block for regtest mode
+#regtest.genesis=0000000000000000000000000000000000000000000000000000000000000000
+
+# Specify a non-default difficulty adjustment interval for regtest mode
+#regtest.diffadjustinterval=2016
