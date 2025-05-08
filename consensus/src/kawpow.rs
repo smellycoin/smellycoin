@@ -80,6 +80,45 @@ impl Default for KawpowParams {
             hash_output_size: 32,
         }
     }
+    
+    /// Get KAWPOW parameters for mainnet
+    pub fn mainnet() -> Self {
+        KawpowParams {
+            cache_dir: PathBuf::from("kawpow_cache/mainnet"),
+            light_cache_size: 16 * 1024 * 1024, // 16 MB
+            full_dataset_size: 2 * 1024 * 1024 * 1024, // 2 GB
+            dataset_accesses: 64,
+            epoch_length: 7500, // ~31 hours at 15-second blocks
+            mix_hash_size: 32,
+            hash_output_size: 32,
+        }
+    }
+    
+    /// Get KAWPOW parameters for testnet
+    pub fn testnet() -> Self {
+        KawpowParams {
+            cache_dir: PathBuf::from("kawpow_cache/testnet"),
+            light_cache_size: 16 * 1024 * 1024, // 16 MB
+            full_dataset_size: 2 * 1024 * 1024 * 1024, // 2 GB
+            dataset_accesses: 64,
+            epoch_length: 7500, // ~31 hours at 15-second blocks
+            mix_hash_size: 32,
+            hash_output_size: 32,
+        }
+    }
+    
+    /// Get KAWPOW parameters for regtest
+    pub fn regtest() -> Self {
+        KawpowParams {
+            cache_dir: PathBuf::from("kawpow_cache/regtest"),
+            light_cache_size: 8 * 1024 * 1024, // 8 MB (smaller for testing)
+            full_dataset_size: 128 * 1024 * 1024, // 128 MB (smaller for testing)
+            dataset_accesses: 32, // Fewer accesses for faster testing
+            epoch_length: 100, // Shorter epochs for testing
+            mix_hash_size: 32,
+            hash_output_size: 32,
+        }
+    }
 }
 
 /// KAWPOW context for mining and verification
@@ -280,24 +319,50 @@ impl KawpowContext {
 /// Verify a KAWPOW proof of work
 pub fn verify_kawpow(
     context: &KawpowContext,
-    header: &BlockHeader,
+    prev_hash: &Hash,
     height: u64,
-    target: &[u8; 32],
-) -> Result<bool, KawpowError> {
-    // Compute the hash
-    let (mix_hash, hash) = context.compute_hash(header, header.nonce, height)?;
+    nonce: u64,
+    mix_hash: &Hash,
+) -> Result<Hash, KawpowError> {
+    let epoch = context.get_epoch(height);
+    let light_cache = context.get_light_cache(epoch)?;
     
-    // Check if the hash is below the target
-    for i in 0..32 {
-        if hash[i] < target[i] {
-            return Ok(true);
-        } else if hash[i] > target[i] {
-            return Ok(false);
-        }
+    // Create a simplified block header for verification
+    let mut header_bytes = [0u8; 80];
+    // We don't have the full header, so we'll use what we have
+    header_bytes[4..36].copy_from_slice(prev_hash);
+    LittleEndian::write_u64(&mut header_bytes[76..84], nonce);
+    
+    // Calculate the header hash
+    let mut hasher = Keccak256::new();
+    hasher.update(&header_bytes);
+    let header_hash = hasher.finalize();
+    
+    // Initialize mix hash
+    let mut computed_mix = [0u8; 32];
+    computed_mix.copy_from_slice(&header_hash);
+    
+    // Perform dataset accesses
+    for i in 0..context.params.dataset_accesses {
+        let index = fnv_hash(i as u32, LittleEndian::read_u32(&computed_mix[i % 32..(i % 32) + 4])) % (context.params.full_dataset_size / 64) as u32;
+        let item = context.calculate_dataset_item(&light_cache, index as usize);
+        fnv_hash_merge(&mut computed_mix, &item, 0);
     }
     
-    // Equal to target (extremely unlikely)
-    Ok(true)
+    // Verify that the provided mix hash matches our computed mix hash
+    if mix_hash != &computed_mix[0..32] {
+        return Err(KawpowError::VerificationError("Mix hash mismatch".into()));
+    }
+    
+    // Final hash
+    let mut hasher = Keccak256::new();
+    hasher.update(&computed_mix);
+    let final_hash = hasher.finalize();
+    
+    let mut result = [0u8; 32];
+    result.copy_from_slice(&final_hash[0..32]);
+    
+    Ok(result)
 }
 
 /// FNV hash function (FNV-1a variant)

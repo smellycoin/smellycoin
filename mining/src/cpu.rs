@@ -119,17 +119,33 @@ impl MiningStatistics {
                 }
                 
                 // Verify KAWPOW
+                let mix_hash = local_header.hash(); // Get the mix hash from the header
                 match verify_kawpow(
                     &self.kawpow_context,
-                    &local_header,
+                    &local_header.prev_block_hash,
                     job.height,
-                    &target,
+                    nonce,
+                    &mix_hash,
                 ) {
-                    Ok(true) => {
-                        // Found a valid solution!
-                        return Some((local_header.clone(), nonce));
-                    }
-                    Ok(false) => {
+                    Ok(hash) => {
+                        // Convert hash to u256 and compare with target
+                        let hash_bytes = hash.as_ref();
+                        let mut is_valid = true;
+                        
+                        // Simple comparison - target should be greater than hash
+                        for i in (0..32).rev() {
+                            if hash_bytes[i] < target[i] {
+                                break;
+                            } else if hash_bytes[i] > target[i] {
+                                is_valid = false;
+                                break;
+                            }
+                        }
+                        
+                        if is_valid {
+                            // Found a valid solution!
+                            return Some((local_header.clone(), nonce));
+                        }
                         // Not a valid solution, continue
                     }
                     Err(e) => {

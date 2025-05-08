@@ -1,6 +1,6 @@
 //! Utility functions and types for SmellyCoin
 
-use std::fmt;
+// No need for fmt import
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -37,7 +37,7 @@ pub fn bytes_to_base58(bytes: &[u8]) -> String {
 
 /// Formats a timestamp as an ISO 8601 string
 pub fn format_timestamp(timestamp: i64) -> String {
-    chrono::NaiveDateTime::from_timestamp_opt(timestamp, 0)
+    chrono::DateTime::<chrono::Utc>::from_timestamp(timestamp, 0)
         .map(|dt| dt.format("%Y-%m-%dT%H:%M:%SZ").to_string())
         .unwrap_or_else(|| "Invalid timestamp".to_string())
 }

@@ -18,8 +18,8 @@ sha3 = "0.10"
 thiserror = "1.0"
 
 smellycoin-core = { path = "../core" }
-smellycoin-crypto = { path = "../crypto" }
 smellycoin-util = { path = "../util" }
+smellycoin-crypto = { path = "../crypto" }
 
 [features]
 default = ["cpu_miner"]

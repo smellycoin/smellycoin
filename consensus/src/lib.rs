@@ -167,20 +167,36 @@ impl ConsensusEngine {
     
     /// Validate the proof of work for a block header
     pub fn validate_pow(&self, header: &BlockHeader) -> Result<(), ConsensusError> {
+        // Get the mix hash from the header
+        let mix_hash = header.hash();
+        
         // Verify KAWPOW
         match kawpow::verify_kawpow(
             &self.kawpow_context,
             &header.prev_block_hash,
             header.height,
             header.nonce,
-            &header.hash(),
+            &mix_hash,
         ) {
             Ok(hash) => {
                 // Check if the hash meets the difficulty target
                 let target = difficulty::bits_to_target(header.bits);
-                let hash_value = difficulty::hash_to_u256(&hash);
                 
-                if hash_value <= target {
+                // Convert hash to a comparable format
+                let hash_bytes = hash.as_ref();
+                let mut is_valid = true;
+                
+                // Compare hash with target (target should be greater than hash)
+                for i in (0..32).rev() {
+                    if hash_bytes[i] < target[i] {
+                        break;
+                    } else if hash_bytes[i] > target[i] {
+                        is_valid = false;
+                        break;
+                    }
+                }
+                
+                if is_valid {
                     Ok(())
                 } else {
                     Err(ConsensusError::InvalidProofOfWork("Hash doesn't meet target".into()))
@@ -239,300 +255,9 @@ pub enum ConsensusError {
     KawpowError(#[from] KawpowError),
 }
 
-/// Module for difficulty adjustment
-pub mod difficulty {
-    use super::*;
-    
-    /// Convert difficulty bits to target
-    pub fn bits_to_target(bits: u32) -> [u8; 32] {
-        let mut target = [0u8; 32];
-        
-        let exponent = ((bits >> 24) & 0xff) as usize;
-        let mantissa = bits & 0x00ffffff;
-        
-        // Convert mantissa to big-endian bytes
-        let mantissa_bytes = mantissa.to_be_bytes();
-        
-        // Place mantissa at the appropriate position based on exponent
-        if exponent >= 3 {
-            target[32 - exponent..32 - exponent + 3].copy_from_slice(&mantissa_bytes[1..]);
-        } else {
-            target[32 - 3..32].copy_from_slice(&mantissa_bytes[1..]);
-            // Shift right to adjust for exponent
-            for i in (0..29).rev() {
-                target[i + 3 - exponent] = target[i];
-                target[i] = 0;
-            }
-        }
-        
-        target
-    }
-    
-    /// Convert hash to u256 for comparison with target
-    pub fn hash_to_u256(hash: &[u8; 32]) -> [u8; 32] {
-        // Reverse the hash for comparison with target
-        let mut result = [0u8; 32];
-        for i in 0..32 {
-            result[i] = hash[31 - i];
-        }
-        result
-    }
-    
-    /// Calculate the difficulty value from bits
-    pub fn get_difficulty_for_bits(bits: u32) -> f64 {
-        // Maximum difficulty (minimum target)
-        const MAX_TARGET: [u8; 32] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xff];
-        
-        let target = bits_to_target(bits);
-        
-        // Convert to f64 for division
-        let mut target_value = 0.0;
-        let mut max_target_value = 0.0;
-        
-        for i in 0..32 {
-            target_value = target_value * 256.0 + target[i] as f64;
-            max_target_value = max_target_value * 256.0 + MAX_TARGET[i] as f64;
-        }
-        
-        if target_value <= 0.0 {
-            return 0.0;
-        }
-        
-        max_target_value / target_value
-    }
-    
-    /// Calculate the next difficulty bits based on the time taken for the previous interval
-    pub fn calculate_next_difficulty(
-        prev_bits: u32,
-        actual_timespan: u64,
-        target_timespan: u64,
-        min_difficulty_bits: u32,
-    ) -> u32 {
-        // Limit adjustment to factor of 4
-        let mut adjusted_timespan = actual_timespan;
-        if adjusted_timespan < target_timespan / 4 {
-            adjusted_timespan = target_timespan / 4;
-        }
-        if adjusted_timespan > target_timespan * 4 {
-            adjusted_timespan = target_timespan * 4;
-        }
-        
-        // Calculate new target
-        let mut target = bits_to_target(prev_bits);
-        
-        // Multiply by adjusted_timespan / target_timespan
-        let mut bn_new = [0u8; 32];
-        let mut carry = 0u16;
-        
-        for i in (0..32).rev() {
-            let mut temp = (target[i] as u16 * adjusted_timespan as u16) + carry;
-            bn_new[i] = (temp % 256) as u8;
-            carry = temp / 256;
-        }
-        
-        // Divide by target_timespan
-        let mut remainder = 0u16;
-        
-        for i in 0..32 {
-            let temp = (remainder * 256) + bn_new[i] as u16;
-            bn_new[i] = (temp / target_timespan as u16) as u8;
-            remainder = temp % target_timespan as u16;
-        }
-        
-        // Convert back to bits format
-        let mut exponent = 0;
-        let mut mantissa = 0u32;
-        
-        // Find the first non-zero byte
-        for i in 0..32 {
-            if bn_new[i] != 0 {
-                exponent = 32 - i;
-                // Get the 3 bytes for mantissa
-                if i <= 29 {
-                    mantissa = ((bn_new[i] as u32) << 16) |
-                              ((bn_new[i + 1] as u32) << 8) |
-                              (bn_new[i + 2] as u32);
-                } else if i == 30 {
-                    mantissa = ((bn_new[i] as u32) << 16) |
-                              ((bn_new[i + 1] as u32) << 8);
-                } else {
-                    mantissa = (bn_new[i] as u32) << 16;
-                }
-                break;
-            }
-        }
-        
-        // Ensure the highest bit is 1 (compact format)
-        if (mantissa & 0x00800000) != 0 {
-            mantissa >>= 8;
-            exponent += 1;
-        }
-        
-        let new_bits = (exponent << 24) | (mantissa & 0x00ffffff);
-        
-        // Ensure we don't go below minimum difficulty
-        if new_bits > min_difficulty_bits {
-            new_bits
-        } else {
-            min_difficulty_bits
-        }
-    }
-}
+// The difficulty module is already defined as a separate file
+// and imported at the top of this file
 
-/// Module for KAWPOW algorithm implementation
-pub mod kawpow {
-    use super::*;
-    use once_cell::sync::Lazy;
-    use std::sync::Mutex;
-    
-    /// KAWPOW algorithm parameters
-    #[derive(Debug, Clone, Serialize, Deserialize)]
-    pub struct KawpowParams {
-        /// Light cache size
-        pub light_cache_size: usize,
-        /// Full dataset size
-        pub full_dataset_size: usize,
-        /// KAWPOW epoch length
-        pub epoch_length: u64,
-        /// Mix hash length
-        pub mix_hash_length: usize,
-        /// Hash output length
-        pub hash_output_length: usize,
-    }
-    
-    impl KawpowParams {
-        /// Get KAWPOW parameters for mainnet
-        pub fn mainnet() -> Self {
-            KawpowParams {
-                light_cache_size: 16 * 1024 * 1024,  // 16MB
-                full_dataset_size: 2 * 1024 * 1024 * 1024,  // 2GB
-                epoch_length: 7500,  // ~31 hours with 15s blocks
-                mix_hash_length: 32,
-                hash_output_length: 32,
-            }
-        }
-        
-        /// Get KAWPOW parameters for testnet
-        pub fn testnet() -> Self {
-            // Same as mainnet for simplicity
-            Self::mainnet()
-        }
-        
-        /// Get KAWPOW parameters for regtest
-        pub fn regtest() -> Self {
-            // Smaller dataset for testing
-            KawpowParams {
-                light_cache_size: 1 * 1024 * 1024,  // 1MB
-                full_dataset_size: 16 * 1024 * 1024,  // 16MB
-                epoch_length: 100,  // Small for testing
-                mix_hash_length: 32,
-                hash_output_length: 32,
-            }
-        }
-    }
-    
-    /// KAWPOW context for verification and mining
-    #[derive(Debug)]
-    pub struct KawpowContext {
-        /// KAWPOW parameters
-        params: KawpowParams,
-        /// Cache for light verification
-        light_cache: Mutex<LightCache>,
-    }
-    
-    impl KawpowContext {
-        /// Create a new KAWPOW context
-        pub fn new(params: KawpowParams) -> Self {
-            KawpowContext {
-                params: params.clone(),
-                light_cache: Mutex::new(LightCache::new(params)),
-            }
-        }
-        
-        /// Get the epoch for a given block height
-        pub fn get_epoch(&self, height: u64) -> u64 {
-            height / self.params.epoch_length
-        }
-    }
-    
-    /// Light cache for KAWPOW verification
-    #[derive(Debug)]
-    struct LightCache {
-        /// KAWPOW parameters
-        params: KawpowParams,
-        /// Current epoch
-        current_epoch: u64,
-        /// Cache data
-        cache: Vec<u8>,
-    }
-    
-    impl LightCache {
-        /// Create a new light cache
-        fn new(params: KawpowParams) -> Self {
-            LightCache {
-                params,
-                current_epoch: u64::MAX, // Invalid epoch to force initialization
-                cache: Vec::new(),
-            }
-        }
-        
-        /// Update the cache for a given epoch
-        fn update(&mut self, epoch: u64) {
-            if self.current_epoch == epoch {
-                return;
-            }
-            
-            info!("Generating KAWPOW light cache for epoch {}", epoch);
-            
-            // In a real implementation, this would generate the light cache
-            // for the given epoch using the KAWPOW algorithm
-            self.cache = vec![0; self.params.light_cache_size];
-            self.current_epoch = epoch;
-        }
-    }
-    
-    /// KAWPOW errors
-    #[derive(Error, Debug)]
-    pub enum KawpowError {
-        #[error("Invalid epoch: {0}")]
-        InvalidEpoch(u64),
-        
-        #[error("Cache generation failed")]
-        CacheGenerationFailed,
-        
-        #[error("Verification failed")]
-        VerificationFailed,
-    }
-    
-    /// Verify a KAWPOW proof of work
-    pub fn verify_kawpow(
-        context: &KawpowContext,
-        prev_hash: &Hash,
-        height: u64,
-        nonce: u64,
-        mix_hash: &Hash,
-    ) -> Result<Hash, KawpowError> {
-        let epoch = context.get_epoch(height);
-        
-        // Update the light cache if needed
-        let mut light_cache = context.light_cache.lock().unwrap();
-        light_cache.update(epoch);
-        
-        // In a real implementation, this would verify the KAWPOW proof of work
-        // using the light cache and return the resulting hash
-        
-        // For now, just return a placeholder hash
-        // This is where the actual KAWPOW verification would happen
-        let mut hasher = Keccak256::new();
-        hasher.update(prev_hash);
-        hasher.update(&height.to_le_bytes());
-        hasher.update(&nonce.to_le_bytes());
-        hasher.update(mix_hash);
-        
-        let mut result = [0u8; 32];
-        result.copy_from_slice(&hasher.finalize());
-        
-        Ok(result)
-    }
+// The kawpow module is already defined as a separate file
+// and imported at the top of this file
 }

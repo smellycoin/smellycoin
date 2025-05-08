@@ -231,7 +231,6 @@ impl Transaction {
         
         // Calculate the transaction ID
         tx.txid = tx.calculate_txid();
-        
         tx
     }
     
@@ -347,6 +346,11 @@ impl Transaction {
         // Additional checks would be done here in a full implementation
         
         Ok(())
+    }
+    
+    /// Get the transaction hash (same as txid)
+    pub fn hash(&self) -> Hash {
+        self.txid
     }
     
     /// Validate the transaction (full validation with UTXO set)

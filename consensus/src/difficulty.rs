@@ -104,6 +104,18 @@ pub fn get_bits_for_difficulty(difficulty: u64) -> u32 {
     compact
 }
 
+/// Convert difficulty bits to a target value (alias for get_target_from_bits)
+pub fn bits_to_target(bits: u32) -> [u8; 32] {
+    get_target_from_bits(bits)
+}
+
+/// Convert a hash to a u256 value for comparison
+pub fn hash_to_u256(hash: &[u8; 32]) -> [u8; 32] {
+    // For direct comparison, we just return the hash as is
+    // In a more complex implementation, this might convert to a numeric representation
+    *hash
+}
+
 /// Calculate the target hash from difficulty bits
 pub fn get_target_from_bits(bits: u32) -> [u8; 32] {
     let mut target = [0u8; 32];

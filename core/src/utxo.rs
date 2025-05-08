@@ -5,8 +5,8 @@
 //! as well as state pruning capabilities to optimize resource usage.
 
 use serde::{Deserialize, Serialize};
-use std::collections::{HashMap, HashSet};
-use std::sync::{Arc, RwLock};
+use std::collections::HashMap;
+use std::sync::RwLock;
 use thiserror::Error;
 
 use crate::{Hash, Transaction, TransactionInput, TransactionOutput};

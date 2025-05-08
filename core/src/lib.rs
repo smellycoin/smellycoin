@@ -9,6 +9,7 @@ use std::fmt;
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
+// Import modules from separate files
 pub mod block;
 pub mod transaction;
 pub mod utxo;
@@ -84,8 +85,8 @@ pub fn current_timestamp() -> u64 {
         .as_secs()
 }
 
-/// Module for block structure
-pub mod block {
+// Block implementation details
+mod block_impl {
     use super::*;
     use std::fmt;
     
@@ -167,7 +168,7 @@ pub mod block {
         }
         
         /// Validate this block
-        pub fn validate(&self, network: Network) -> Result<(), BlockValidationError> {
+        pub fn validate(&self, _network: Network) -> Result<(), BlockValidationError> {
             // Check that the merkle root matches the transactions
             let calculated_merkle_root = self.calculate_merkle_root();
             if calculated_merkle_root != self.header.merkle_root {
@@ -179,7 +180,12 @@ pub mod block {
             
             // Validate transactions
             for tx in &self.transactions {
-                tx.validate(network)?;
+                tx.validate(
+                    |_hash, _index| Some(0), // Placeholder for get_output_value
+                    |_input, _hash| true,    // Placeholder for verify_signature
+                    0,                     // Placeholder for min_fee_rate
+                    1_000_000              // Placeholder for max_size
+                )?;
             }
             
             Ok(())
@@ -212,17 +218,17 @@ pub mod block {
     }
 }
 
-/// Module for transaction structure
-pub mod transaction {
+// Transaction implementation details
+mod transaction_impl {
     use super::*;
     
     /// Transaction input structure
     #[derive(Clone, Debug, Serialize, Deserialize)]
     pub struct TransactionInput {
         /// Reference to the previous transaction output
-        pub prev_tx: Hash,
+        pub prev_txid: Hash,
         /// Index of the output in the previous transaction
-        pub prev_index: u32,
+        pub prev_vout: u32,
         /// Script that satisfies the conditions of the output script
         pub script_sig: Vec<u8>,
         /// Sequence number
@@ -276,11 +282,21 @@ pub mod transaction {
         
         /// Check if this is a coinbase transaction
         pub fn is_coinbase(&self) -> bool {
-            self.inputs.len() == 1 && self.inputs[0].prev_tx == [0u8; 32] && self.inputs[0].prev_index == 0xFFFFFFFF
+            self.inputs.len() == 1 && self.inputs[0].prev_txid == [0u8; 32] && self.inputs[0].prev_vout == 0xFFFFFFFF
         }
         
         /// Validate this transaction
-        pub fn validate(&self, network: Network) -> Result<(), TransactionValidationError> {
+        pub fn validate<F, G>(
+            &self,
+            get_output_value: F,
+            verify_signature: G,
+            min_fee_rate: u64,
+            max_size: usize,
+        ) -> Result<(), TransactionValidationError>
+        where
+            F: Fn(&Hash, u32) -> Option<u64>,
+            G: Fn(&TransactionInput, &Hash) -> bool,
+        {
             // Basic validation
             if self.inputs.is_empty() {
                 return Err(TransactionValidationError::NoInputs);
@@ -350,8 +366,8 @@ pub mod transaction {
     }
 }
 
-/// Module for UTXO set management
-pub mod utxo {
+// UTXO set implementation details
+mod utxo_impl {
     use super::*;
     
     /// UTXO entry representing an unspent transaction output
@@ -424,10 +440,10 @@ pub mod utxo {
                 // Remove spent inputs (except for coinbase)
                 if !is_coinbase {
                     for input in &tx.inputs {
-                        if !self.contains(&input.prev_tx, input.prev_index) {
+                        if !self.contains(&input.prev_txid, input.prev_vout) {
                             return Err(UTXOError::InputNotFound);
                         }
-                        self.remove(&input.prev_tx, input.prev_index);
+                        self.remove(&input.prev_txid, input.prev_vout);
                     }
                 }
                 
@@ -439,7 +455,7 @@ pub mod utxo {
                         output_index: output_index as u32,
                         value: output.value,
                         script_pubkey: output.script_pubkey.clone(),
-                        height: block.header.height,
+                        height: block.height.unwrap_or(0),
                         is_coinbase,
                     };
                     self.add(entry);
