@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Address - SMELLY</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+  <div class="header">
+    <div>SMELLY Explorer</div>
+    <div class="small"><a href="/">Home</a> | <a href="/mempool">Mempool</a> | <a href="/admin/fairness">Fairness</a></div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h2>Address</h2>
+      <div class="mono">{{addr}}</div>
+      <div><b>Balance:</b> {{balance}}</div>
+      <div><b>Total Rewards:</b> {{total_rewards}}</div>
+    </div>
+
+    <div class="card">
+      <h3>Unspent UTXOs</h3>
+      <table class="table">
+        <thead><tr><th>Txid</th><th>Vout</th><th>Amount</th><th>Coinbase</th></tr></thead>
+        <tbody>
+        {% for u in utxos %}
+          <tr>
+            <td class="mono"><a href="/tx/{{u.txid}}">{{u.txid[:24]}}...</a></td>
+            <td>{{u.vout}}</td>
+            <td>{{u.amount}}</td>
+            <td>{{'Yes' if u.coinbase else 'No'}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Rewards</h3>
+      <table class="table">
+        <thead><tr><th>Height</th><th>Amount</th><th>Txid</th></tr></thead>
+        <tbody>
+        {% for r in rewards %}
+          <tr>
+            <td><a href="/block/{{r.block_hash}}">{{r.height}}</a></td>
+            <td>{{r.amount}}</td>
+            <td class="mono"><a href="/tx/{{r.txid}}">{{r.txid}}</a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+network:
+  name: smelly-mainnet
+  magic: SMELLY
+  p2p_port: 28444
+  rpc_host: 127.0.0.1
+  rpc_port: 28445
+  pool_port: 28446
+  masternode_port: 28447
+  explorer_port: 28448
+  web_wallet_port: 28450
+consensus:
+  target_block_time_sec: 15
+  max_coin_supply: 100000000
+  initial_block_reward: 50.0
+  halving_interval_blocks: 210000
+  min_tx_fee: 0.0001
+  block_version: 1
+  pow_algorithm: auto
+  randomx_seed_mode: tip
+  randomx_epoch_blocks: 2048
+  argon2:
+    time_cost: 2
+    memory_mib: 64
+    parallelism: 1
+sync:
+  mode: headers_first
+  max_peers: 16
+  request_timeout_sec: 10
+  headers_per_batch: 2000
+  blocks_per_batch: 64
+  bootstrap_masternodes:
+  - 127.0.0.1:28447
+wallet:
+  address_prefix: SMELLY_
+  mnemonic_language: english
+  default_account_name: Main
+  subaddress_scheme: xmr_like
+database:
+  driver: sqlite
+  sqlite_path: data/smelly.db
+logging:
+  level: INFO
+  file: logs/smelly.log
+ui:
+  theme_primary: '#FFD000'
+  theme_secondary: '#111111'
+fairness:
+  enabled: true
+  epoch_length_dev: 20
+  epoch_length_main: 100
+  pool_ratio: 0.3
+  target_near_rate_per_min: 3
+  ticket_window_ms: 4000
+  nonce_window_pow2: 21
+solo:
+  default_address: SMELLY_SOLO
+  threads: 4
+  backend_preference: auto
+pool:
+  enabled: false
+miner:
+  default_address: sigma_goon
+  threads: 4

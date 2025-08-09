@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Tx - SMELLY</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const el = document.getElementById('loader'); if(el) el.classList.add('hidden');
+    });
+  </script>
+</head>
+<body>
+  <div id="loader" class="loader-overlay"><div class="spinner"></div></div>
+  <div class="header">
+    <div>SMELLY Explorer</div>
+    <div class="small"><a href="/">Home</a> | <a href="/mempool">Mempool</a></div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h2>Transaction</h2>
+      <div><b>Txid:</b> <span class="mono">{{tx.txid}}</span></div>
+      <div><b>In Block:</b> {% if tx.in_block_hash %}<a class="mono" href="/block/{{tx.in_block_hash}}">{{tx.in_block_hash}}</a>{% else %}Mempool{% endif %}</div>
+      <div><b>Fee:</b> {{tx.fee}}</div>
+      <div class="row">
+        <div class="card">
+          <h3>Inputs</h3>
+          <table class="table">
+            <thead><tr><th>Source Txid</th><th>Vout</th><th>Amount</th><th>Address</th></tr></thead>
+            <tbody>
+            {% for i in inputs %}
+              <tr>
+                <td class="mono"><a href="/tx/{{i.txid}}">{{i.txid[:24]}}...</a></td>
+                <td>{{i.vout}}</td>
+                <td>{{i.amount}}</td>
+                <td class="mono"><a href="/address/{{i.address}}">{{i.address[:22]}}...</a></td>
+              </tr>
+            {% endfor %}
+            {% if not inputs %}<tr><td colspan="4" class="small">No inputs (coinbase or not recorded)</td></tr>{% endif %}
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Outputs</h3>
+          <table class="table">
+            <thead><tr><th>Vout</th><th>Amount</th><th>Address</th><th>Coinbase</th></tr></thead>
+            <tbody>
+            {% for o in outputs %}
+              <tr>
+                <td>{{o.vout}}</td>
+                <td>{{o.amount}}</td>
+                <td class="mono"><a href="/address/{{o.address}}">{{o.address[:22]}}...</a></td>
+                <td>{{'Yes' if o.coinbase else 'No'}}</td>
+              </tr>
+            {% endfor %}
+            {% if not outputs %}<tr><td colspan="4" class="small">No outputs recorded</td></tr>{% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Raw</h3>
+        <pre class="small">{{tx.raw}}</pre>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

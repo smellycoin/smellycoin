@@ -1,0 +1,288 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- Loading overlay -->
+<div id="loader" class="fixed inset-0 bg-black/95 z-50 flex items-center justify-center">
+  <div class="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+</div>
+
+<div class="max-w-3xl mx-auto card p-6"
+     x-data='sendForm("{{ account_address or "" }}", {{ address_options | tojson | safe }})'
+     x-init="$nextTick(()=>{ init(); const l=document.getElementById('loader'); if(l){ l.classList.add('hidden'); } })">
+
+  <h1 class="text-2xl font-extrabold text-yellow-400 mb-4">Send</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label class="block text-sm mb-1">From Address</label>
+      <select class="w-full px-3 py-2 rounded border border-yellow-500 bg-black text-yellow-300 mono focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              x-model="fromAddr" @change="onFromChange()">
+        <!-- Server-rendered fallback options (address + balance only) -->
+        {% for opt in address_options %}
+          <option value="{{ opt.address }}">{{ opt.address[:10] ~ '...' ~ opt.address[-6:] ~ '  [' ~ ('%.6f'|format(opt.balance)) ~ ']' }}</option>
+        {% endfor %}
+        <!-- Alpine-enhanced dynamic options -->
+        <template x-if="options && options.length">
+          <template x-for="opt in options" :key="opt.address">
+            <option :value="opt.address" x-text="opt.address.slice(0,10)+'...'+opt.address.slice(-6)+'  ['+Number(opt.balance||0).toFixed(6)+']'"></option>
+          </template>
+        </template>
+      </select>
+      <p class="text-xs text-gray-400 mt-1">Balances shown in brackets. Choose a different subaddress if needed.</p>
+      <div class="text-xs text-gray-400 mt-1">Available: <span class="text-yellow-400" x-text="available.toFixed(6)"></span> SMELLY</div>
+    </div>
+    <div>
+      <label class="block text-sm mb-1">To Address</label>
+      <input class="w-full bg-black/30 px-3 py-2 rounded border border-yellow-700/40 mono" x-model="toAddr" placeholder="SMELLY_..."/>
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1">Amount (SMELLY)</label>
+      <input type="number" step="0.000001" class="w-full bg-black/30 px-3 py-2 rounded border border-yellow-700/40" x-model.number="amount" @input="recalc()"/>
+      <div class="text-xs mt-1" :class="canSend ? 'text-gray-400' : 'text-red-400'">
+        <span x-show="!canSend">Insufficient funds for amount + fee.</span>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1">Fee</label>
+      <div class="flex items-center gap-2">
+        <input id="feeInput" type="number" step="0.000001" class="bg-black/30 px-3 py-2 rounded border border-yellow-700/40 w-36" x-model.number="fee" @input="onFeeInput()" placeholder="1.000000"/>
+        <span class="text-xs text-gray-400">or use slider</span>
+      </div>
+      <div class="flex items-center gap-3 mt-2">
+        <input id="feeSlider" type="range" min="0" max="100" step="1" class="w-full accent-yellow-400" x-model.number="feeSlider" @input="onFeeSlider()">
+        <span class="w-14 text-right text-xs text-yellow-400" x-text="feeLevelLabel"></span>
+      </div>
+      <div class="text-xs text-gray-500 mt-1">Current fee: <span class="text-yellow-300 mono" x-text="fee.toFixed(6)"></span> SMELLY</div>
+      <div class="text-xs text-gray-400 mt-1" x-text="feeTip"></div>
+      <div class="text-xs text-gray-400" x-text="etaText"></div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <label class="block text-sm mb-1">Memo (optional)</label>
+    <input class="w-full bg-black/30 px-3 py-2 rounded border border-yellow-700/40" x-model="memo" placeholder="Note for your records"/>
+  </div>
+
+  <div class="mt-5 flex items-center justify-center gap-3">
+    <!-- Force always-clickable button; no state-based visual disable -->
+    <button id="sendBtn" type="button"
+            class="px-6 py-3 rounded font-semibold bg-yellow-400 text-black shadow-md hover:shadow-lg transition border border-yellow-500">
+      Submit
+    </button>
+    <div class="text-sm" x-show="busy">Submitting...</div>
+  </div>
+
+  <div class="mt-4" x-show="last">
+    <div class="text-green-400 text-sm font-semibold">Submitted to mempool</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm mt-2">
+      <div><b>Txid:</b> <span class="mono" x-text="last.txid"></span></div>
+      <div><b>From:</b> <span class="mono" x-text="last.from"></span></div>
+      <div><b>To:</b> <span class="mono" x-text="last.to"></span></div>
+      <div><b>Amount:</b> <span x-text="last.amount.toFixed(6)"></span></div>
+      <div><b>Fee:</b> <span x-text="last.fee.toFixed(6)"></span></div>
+      <div class="text-xs text-gray-400">Higher fees are mined first. Confirmation time depends on network conditions.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('alpine:init', () => {
+  window.sendForm = function(defaultFrom, addressOptions) {
+    // Ensure options serializes safely (if undefined/null)
+    try { if (!Array.isArray(addressOptions)) { addressOptions = []; } } catch(e) { addressOptions = []; }
+    // Coerce defaultFrom to string to avoid unescaped quotes
+    defaultFrom = (defaultFrom == null) ? "" : String(defaultFrom);
+    return {
+      csrf: (Math.random().toString(16).slice(2)+Math.random().toString(16).slice(2)).slice(0,32),
+      options: Array.isArray(addressOptions) ? addressOptions : [],
+      fromAddr: defaultFrom || '',
+      toAddr: '',
+      amount: 0,
+      fee: 0,
+      memo: '',
+      feeTip: '',
+      etaText: '',
+      feeSlider: 0,
+      feeLevelLabel: 'low',
+      available: 0,
+      canSend: false,
+      last: null,
+      busy: false,
+
+      onFromChange() {
+        this.refreshAvailable().then(()=>this.recalc());
+      },
+
+      async init() {
+        // Select default option if fromAddr empty
+        if (!this.fromAddr && this.options.length) {
+          this.fromAddr = this.options[0].address;
+        }
+        await this.refreshAvailable();
+
+        // Default fee = 1 SMELLY and fully sync both controls
+        this.fee = 1.0;
+        this.feeSlider = 1.0; // slider 0..100 -> fee 0..100
+        const feeInputEl = document.getElementById('feeInput');
+        const feeSliderEl = document.getElementById('feeSlider');
+        if (feeInputEl) feeInputEl.value = this.fee.toFixed(6);
+        if (feeSliderEl) feeSliderEl.value = String(this.feeSlider);
+
+        // Load suggestions for tip/ETA (does not override current fee)
+        try {
+          const j = await fetch('/api/v1/fees/suggest').then(r=>r.json());
+          this.feeTip = j.tip || this.feeTip;
+        } catch(e){}
+
+        this.recalc();
+
+        // Bind events explicitly to avoid framework conflicts
+        const btn = document.getElementById('sendBtn');
+        if (btn) btn.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          // Always send payload on click; submit() validates
+          this.submit();
+        });
+
+        // Ensure two-way binding between slider and input
+        if (feeSliderEl) feeSliderEl.addEventListener('input', () => this.onFeeSlider());
+        if (feeInputEl) feeInputEl.addEventListener('input', () => this.onFeeInput());
+
+        // Safety: log when page initialized and values
+        try { console.log('Send form ready', {from:this.fromAddr, fee:this.fee, feeSlider:this.feeSlider}); } catch {}
+      },
+
+      async refreshAvailable() {
+        try {
+          if (!this.fromAddr) { this.available = 0; return; }
+          const j = await fetch(`/api/v1/address/${encodeURIComponent(this.fromAddr)}/balance`).then(r=>r.json());
+          this.available = Number(j.balance || 0);
+        } catch(e) { this.available = 0; }
+      },
+
+      recalc() {
+        const need = Number(this.amount || 0) + Number(this.fee || 0);
+        // compute canSend; styling no longer flips to disabled colors
+        this.canSend = (this.available + 1e-12) >= need && this.amount > 0 && this.fee >= 0 && this.fee <= 100.0 && !!this.fromAddr && !!this.toAddr;
+      },
+
+      async suggestFee(tier) {
+        try {
+          const j = await fetch('/api/v1/fees/suggest').then(r=>r.json());
+          const low = Number(j.low || 0.00001);
+          const med = Number(j.medium || 0.0001);
+          const high = Number(j.high || 0.001);
+          this.feeTip = j.tip || '';
+          if (tier==='low') { this.fee = low; this.feeSlider = 0; this.feeLevelLabel='low'; this.etaText='ETA: 3-6 blocks'; }
+          else if (tier==='medium') { this.fee = med; this.feeSlider = 50; this.feeLevelLabel='med'; this.etaText='ETA: 1-3 blocks'; }
+          else { this.fee = high; this.feeSlider = 100; this.feeLevelLabel='high'; this.etaText='ETA: ~1 block'; }
+          this.recalc();
+        } catch(e) {
+          this.feeTip = 'Unable to load suggestions.';
+        }
+      },
+
+      onFeeSlider() {
+        // Map slider (0..100) to fee (0..100), keep input in sync
+        const slider = document.getElementById('feeSlider');
+        const feeInput = document.getElementById('feeInput');
+        const raw = slider ? Number(slider.value) : Number(this.feeSlider || 0);
+        const x = isNaN(raw) ? 0 : raw;
+        this.feeSlider = x;
+        this.fee = Number(x.toFixed(6));
+        if (feeInput) {
+          feeInput.value = this.fee.toFixed(6);
+          // reflect into x-model explicitly
+          this.$nextTick(() => { this.fee = Number(feeInput.value); this.recalc(); });
+        } else {
+          this.recalc();
+        }
+        this.feeLevelLabel = x < 33 ? 'low' : (x < 66 ? 'med' : 'high');
+      },
+
+      onFeeInput() {
+        // Keep slider roughly in sync when typing; clamp 0..100
+        const feeInput = document.getElementById('feeInput');
+        const slider = document.getElementById('feeSlider');
+        const v = feeInput ? Number(feeInput.value) : Number(this.fee);
+        const fee = Math.max(0, Math.min(100, isNaN(v) ? 0 : v));
+        this.fee = Number(fee.toFixed(6));
+        this.feeSlider = fee;
+        if (slider) slider.value = String(this.feeSlider);
+        this.feeLevelLabel = fee < 33 ? 'low' : (fee < 66 ? 'med' : 'high');
+        this.$nextTick(() => this.recalc());
+      },
+
+      async submit() {
+        // Resolve DOM values first to avoid stale x-models
+        const feeInputEl = document.getElementById('feeInput');
+        const feeSliderEl = document.getElementById('feeSlider');
+        const fromSelectEl = document.querySelector('select[x-model="fromAddr"]') || document.querySelector('select');
+        // Sync internal state from DOM
+        if (fromSelectEl && fromSelectEl.value) this.fromAddr = fromSelectEl.value;
+        if (feeInputEl && feeInputEl.value !== '') {
+          const f = Number(feeInputEl.value);
+          if (!Number.isNaN(f)) { this.fee = f; }
+        }
+        if (feeSliderEl && feeSliderEl.value !== '') {
+          const fs = Number(feeSliderEl.value);
+          if (!Number.isNaN(fs)) { this.feeSlider = fs; }
+        }
+
+        // Validate fields
+        const amt = Number(this.amount || 0);
+        const feeNum = Number(this.fee || 0);
+        if (!this.fromAddr || !this.toAddr) { alert('Select a From address and enter a To address.'); return; }
+        const need = amt + feeNum;
+        if (!Number.isFinite(amt) || !Number.isFinite(feeNum) || !(this.available + 1e-12 >= need) || !(amt > 0) || !(feeNum >= 0 && feeNum <= 100.0)) {
+          alert('Invalid amount or fee.');
+          return;
+        }
+
+        // Build payload (final read from DOM to guarantee accuracy)
+        const feeVal = (feeInputEl && feeInputEl.value !== '') ? Number(feeInputEl.value) : feeNum;
+        const payload = {
+          from_address: String(this.fromAddr).trim(),
+          to_address: String(this.toAddr).trim(),
+          amount: Number(amt),
+          fee: Number(feeVal),
+          memo: String(this.memo || '')
+        };
+
+        // Debug: log payload to console in case backend sees no request
+        try { console.log('Submitting payload', payload); } catch {}
+
+        // Lock UI
+        this.busy = true;
+        try {
+          const r = await fetch('/api/v1/tx/send', {
+            method:'POST',
+            headers:{
+              'content-type':'application/json',
+              'x-smelly-csrf': this.csrf
+            },
+            body: JSON.stringify(payload),
+            cache: 'no-store',
+            redirect: 'follow'
+          });
+          let j; try { j = await r.json(); } catch { j = {}; }
+          if (!r.ok) {
+            alert((j && j.detail) ? j.detail : ('Send failed (' + r.status + ')'));
+            return;
+          }
+          // Success
+          this.last = { txid: j.txid, from: j.from, to: j.to, amount: j.amount, fee: j.fee };
+          await this.refreshAvailable();
+        } catch(e) {
+          try { console.error('Send error', e); } catch {}
+          alert('Submit failed');
+        } finally {
+          this.busy = false;
+        }
+      }
+    }; // end return object
+  }; // end window.sendForm factory
+}); // end alpine:init listener
+</script>
+{% endblock %}

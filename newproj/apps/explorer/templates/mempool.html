@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Mempool - SMELLY</title>
+  <meta http-equiv="refresh" content="10"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+  <div class="header">
+    <div>SMELLY Explorer</div>
+    <div class="small"><a href="/">Home</a> | <a href="/admin/fairness">Fairness</a></div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h2>Mempool</h2>
+      <table class="table">
+        <thead><tr><th>Txid</th><th>From</th><th>To</th><th>Amount</th><th>Fee</th><th>Added</th></tr></thead>
+        <tbody>
+        {% for m in mempool %}
+          <tr>
+            <td class="mono"><a href="/tx/{{m.txid}}">{{m.txid}}</a></td>
+            <td class="mono">{{m.from_addr or ''}}</td>
+            <td class="mono">{{m.to_addr or ''}}</td>
+            <td>{{m.amount or ''}}</td>
+            <td>{{m.fee}}</td>
+            <td>{{m.added_ms}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

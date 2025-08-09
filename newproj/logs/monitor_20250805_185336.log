@@ -1,0 +1,230 @@
+[18:53:36] Logging to E:\newproj\logs\monitor_20250805_185336.log
+[18:53:36] Started Node A (RPC 28445, P2P 28447) PID=9408
+[18:53:36] Started Node B (RPC 38555, P2P 38557) PID=55708
+[18:53:36] Started Explorer PID=63684
+[18:53:37] [EXP] E:\newproj\apps\explorer\server.py:363: DeprecationWarning:
+[18:53:37] [EXP]         on_event is deprecated, use lifespan event handlers instead.
+[18:53:37] [EXP] 
+[18:53:37] [EXP]         Read more about it in the
+[18:53:37] [EXP]         [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+[18:53:37] [EXP] 
+[18:53:37] [EXP]   @app.on_event("startup")
+[18:53:37] [EXP] INFO:     Started server process [63684]
+[18:53:37] [EXP] INFO:     Waiting for application startup.
+[18:53:37] [EXP] INFO:     Application startup complete.
+[18:53:37] [EXP] INFO:     Uvicorn running on http://127.0.0.1:28448 (Press CTRL+C to quit)
+[18:53:37] [B] INFO:     Started server process [55708]
+[18:53:37] [B] INFO:     Waiting for application startup.
+[18:53:37] [B] INFO:     Application startup complete.
+[18:53:37] [B] INFO:     Uvicorn running on http://127.0.0.1:38555 (Press CTRL+C to quit)
+[18:53:37] [A] INFO:     Started server process [9408]
+[18:53:37] [A] INFO:     Waiting for application startup.
+[18:53:37] [A] INFO:     Application startup complete.
+[18:53:37] [A] INFO:     Uvicorn running on http://127.0.0.1:28445 (Press CTRL+C to quit)
+[18:53:38] [A] SMELLY Node RPC + P2P started.
+[18:53:38] [A] Mining enabled. Submitting header-only blocks...
+[18:53:38] [A] P2P listening on 127.0.0.1:28447
+[18:53:38] [A] INFO:     127.0.0.1:47561 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:53:38] [B] SMELLY Node RPC + P2P started.
+[18:53:38] [B] P2P listening on 127.0.0.1:38557
+[18:53:38] [B] INFO:     127.0.0.1:47571 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:53:38] [A] INFO:     127.0.0.1:47572 - "POST /rpc/p2p/connect?addr=127.0.0.1%3A38557 HTTP/1.1" 200 OK
+[18:53:38] A -> B connect OK
+[18:53:38] [B] P2P conn error: 127.0.0.1:47573 [WinError 10053] An established connection was aborted by the software in your host machine
+[18:53:38] B -> A connect OK
+[18:53:38] [B] INFO:     127.0.0.1:47574 - "POST /rpc/p2p/connect?addr=127.0.0.1%3A28447 HTTP/1.1" 200 OK
+[18:53:38] [A] P2P conn error: 127.0.0.1:47575 [WinError 10054] An existing connection was forcibly closed by the remote host
+[18:53:38] [A] INFO:     127.0.0.1:47576 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:38] [A] INFO:     127.0.0.1:47577 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:53:38] [A] INFO:     127.0.0.1:47578 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:38] [B] INFO:     127.0.0.1:47579 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:53:38] [A] INFO:     127.0.0.1:47580 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:53:38] [SUMMARY] A=697 B=697 mempoolA=0
+[18:53:38] [A] INFO:     127.0.0.1:47581 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:38] [A] INFO:     127.0.0.1:47582 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:38] [A] INFO:     127.0.0.1:47568 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:38] [A] Mined header hash: 38d6c4ddac886fe887d8d6ef3a68fa48b987f2ec0f48bae7692e10d05e5a2e48
+[18:53:38] [A] INFO:     127.0.0.1:47583 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:38] [A] INFO:     127.0.0.1:47584 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:39] [A] INFO:     127.0.0.1:47585 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:39] [A] INFO:     127.0.0.1:47586 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:39] [A] INFO:     127.0.0.1:47587 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:39] [A] Mined header hash: 7d9509e198fb5f468f8b780de931313e7c1e04b1609c84ed1d54dd97b56a9eb9
+[18:53:39] [A] INFO:     127.0.0.1:47588 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:39] [A] INFO:     127.0.0.1:47589 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:39] [A] INFO:     127.0.0.1:47590 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:39] [A] Mined header hash: 8a5f6175bf97e0b715eca82d05256542480187c9a1c1978dad721925f4276f37
+[18:53:39] [A] INFO:     127.0.0.1:47591 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:39] [A] INFO:     127.0.0.1:47592 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:40] [A] INFO:     127.0.0.1:47593 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:40] [A] INFO:     127.0.0.1:47594 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:40] [A] INFO:     127.0.0.1:47595 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:40] [A] Mined header hash: 99198705e12d58f65820ae8d0c46f889202fb264c7f4b64a40fcc15d5bdf42b1
+[18:53:40] [A] INFO:     127.0.0.1:47596 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:40] [A] INFO:     127.0.0.1:47597 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:40] [A] INFO:     127.0.0.1:47598 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:40] [A] INFO:     127.0.0.1:47599 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:40] [A] INFO:     127.0.0.1:47600 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:41] [A] Mined header hash: e64629b4bd27ee1387a729ea1f3a9c05ccfdadedb07814bb3f5c57fff4916d2e
+[18:53:41] [A] INFO:     127.0.0.1:47601 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:41] [A] INFO:     127.0.0.1:47602 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:41] [A] INFO:     127.0.0.1:47603 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:41] [A] INFO:     127.0.0.1:47604 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:41] [EXP] INFO:     127.0.0.1:47605 - "GET / HTTP/1.1" 200 OK
+[18:53:41] [EXP] INFO:     127.0.0.1:47605 - "GET /style.css HTTP/1.1" 200 OK
+[18:53:41] [A] INFO:     127.0.0.1:47607 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:41] [A] Mined header hash: 10aac5857f672f729259440b91761bc37c6675d56dc44d1a840803479b1e2660
+[18:53:41] [A] INFO:     127.0.0.1:47608 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:41] [A] INFO:     127.0.0.1:47609 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:42] [A] INFO:     127.0.0.1:47610 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:42] [A] INFO:     127.0.0.1:47611 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:42] [A] INFO:     127.0.0.1:47612 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:42] [A] Mined header hash: 9e4ce1614d43e0b4695c74e2d5c62650644d39516304afbf6c0e1337c5f0ad5d
+[18:53:42] [A] INFO:     127.0.0.1:47613 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:42] [A] INFO:     127.0.0.1:47614 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:42] [A] INFO:     127.0.0.1:47615 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:42] [A] INFO:     127.0.0.1:47617 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:42] [A] INFO:     127.0.0.1:47616 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:43] [A] Mined header hash: 907a4f2ae3ea7d9a4f8b3bac88454e98a8260579516e80d06a88cf9719ea7d62
+[18:53:43] [A] INFO:     127.0.0.1:47618 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:53:43] [B] INFO:     127.0.0.1:47619 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:53:43] [A] INFO:     127.0.0.1:47620 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:53:43] [SUMMARY] A=705 B=705 mempoolA=0
+[18:53:43] [A] INFO:     127.0.0.1:47622 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:43] [A] INFO:     127.0.0.1:47621 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:43] [A] Mined header hash: e46fb4bf4d892afd1c07b9c41d73e5c3b43029d6a481f1fbe867a4f46e233572
+[18:53:43] [A] INFO:     127.0.0.1:47624 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:43] [A] INFO:     127.0.0.1:47625 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:43] [A] INFO:     127.0.0.1:47623 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:43] [A] INFO:     127.0.0.1:47626 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:44] [A] Mined header hash: e0c2328a8418b625ebcb25613cfe65a042fe79117b44267f6c8e726f3115b7c9
+[18:53:44] [A] INFO:     127.0.0.1:47627 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:44] [A] INFO:     127.0.0.1:47628 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:44] [MINER SMELLY_MONITOR_A] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=5422231d9d9bff6efe2f4141e613cbb08cee2cce0fa83c3981f9e14ad394f266 submitted=e0c2328a8418b625ebcb25613cfe65a042fe79117b44267f6c8e726f3115b7c9 height=708 included=1'}}
+[18:53:44] [A] INFO:     127.0.0.1:47629 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:44] [A] INFO:     127.0.0.1:47630 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:44] [EXP] INFO:     127.0.0.1:47605 - "GET / HTTP/1.1" 200 OK
+[18:53:44] [EXP] INFO:     127.0.0.1:47605 - "GET /style.css HTTP/1.1" 304 Not Modified
+[18:53:44] [A] INFO:     127.0.0.1:47631 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:44] [A] Mined header hash: 982e746a9bae8a88cd402d8fc4a2e2a40df98ccd52330c9e53e4998a3ccdcf9d
+[18:53:44] [A] INFO:     127.0.0.1:47632 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:44] [A] INFO:     127.0.0.1:47633 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:44] [A] INFO:     127.0.0.1:47634 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:44] [A] INFO:     127.0.0.1:47635 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:44] [MINER SMELLY_MONITOR_B] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=d31f8943951bb2d23761250b062c3941fd61faf6e1e634f7771dde780495079a submitted=982e746a9bae8a88cd402d8fc4a2e2a40df98ccd52330c9e53e4998a3ccdcf9d height=709 included=1'}}
+[18:53:45] [A] INFO:     127.0.0.1:47636 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:45] [A] Mined header hash: 8196a56baf6ddc000e8d1e2e92aeb7be08400927260b3396c350b1317f39a2c8
+[18:53:45] [A] INFO:     127.0.0.1:47637 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:45] [A] INFO:     127.0.0.1:47638 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:45] [A] INFO:     127.0.0.1:47639 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:45] [A] INFO:     127.0.0.1:47640 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:45] [A] INFO:     127.0.0.1:47641 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:46] [A] Mined header hash: ed9ac144411cca115267cf13150546415e2afeaf4a7ea065b6701624dbe8f7a6
+[18:53:46] [A] INFO:     127.0.0.1:47642 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:46] [A] INFO:     127.0.0.1:47643 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:46] [A] INFO:     127.0.0.1:47644 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:46] [A] INFO:     127.0.0.1:47645 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:46] [A] INFO:     127.0.0.1:47646 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:46] [EXP] INFO:     127.0.0.1:47605 - "GET /address/SMELLY_MONITOR_A HTTP/1.1" 200 OK
+[18:53:46] [EXP] INFO:     127.0.0.1:47605 - "GET /style.css HTTP/1.1" 304 Not Modified
+[18:53:46] [A] Mined header hash: c24cfc758265965b2b1638aff3c858701e8b3936d3552eb930b951ba91c3e0e2
+[18:53:46] [A] INFO:     127.0.0.1:47647 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:46] [A] INFO:     127.0.0.1:47648 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:46] [A] INFO:     127.0.0.1:47650 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:46] [A] INFO:     127.0.0.1:47651 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:46] [A] INFO:     127.0.0.1:47652 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:47] [A] Mined header hash: c5b0115d962b5dc095e4846368a8b2470e96fa9a07c4cc553c04eec477f78bb1
+[18:53:47] [A] INFO:     127.0.0.1:47653 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:47] [A] INFO:     127.0.0.1:47654 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:47] [A] INFO:     127.0.0.1:47655 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:47] [A] INFO:     127.0.0.1:47656 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:47] [A] INFO:     127.0.0.1:47657 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:48] [A] Mined header hash: 40ea81fd896ccd18190b6865607173c274eabdff1cb4717230f33492bc4f5a6d
+[18:53:48] [A] INFO:     127.0.0.1:47658 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:48] [A] INFO:     127.0.0.1:47659 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:48] [A] INFO:     127.0.0.1:47660 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:48] [A] INFO:     127.0.0.1:47661 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:48] [A] INFO:     127.0.0.1:47662 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:53:48] [B] INFO:     127.0.0.1:47663 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:53:48] [A] INFO:     127.0.0.1:47664 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:53:48] [SUMMARY] A=713 B=713 mempoolA=0
+[18:53:48] [A] INFO:     127.0.0.1:47665 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:48] [A] Mined header hash: 3e14efaaac7d48adf00a94a7cc619e97936c95bfda712f27089292892e8e8c82
+[18:53:48] [A] INFO:     127.0.0.1:47666 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:48] [A] INFO:     127.0.0.1:47667 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:48] [A] INFO:     127.0.0.1:47668 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:48] [A] INFO:     127.0.0.1:47669 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:48] [A] INFO:     127.0.0.1:47670 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:49] [A] Mined header hash: cd66e931b7ad7778b22f36f600af6488bea1eabdddf3186d5a802a80a898c136
+[18:53:49] [A] INFO:     127.0.0.1:47671 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:49] [A] INFO:     127.0.0.1:47672 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:49] [A] INFO:     127.0.0.1:47674 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:49] [A] INFO:     127.0.0.1:47675 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:49] [A] INFO:     127.0.0.1:47673 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:49] [EXP] INFO:     127.0.0.1:47605 - "GET /tx/e7d3687d863a1031c32fce985c200fd8073418e0169a2913350f404c868419c6 HTTP/1.1" 200 OK
+[18:53:49] [EXP] INFO:     127.0.0.1:47605 - "GET /style.css HTTP/1.1" 304 Not Modified
+[18:53:50] [A] Mined header hash: 6d0e79448acb85ea6e25c0a64ace4b7c102720f7f346eb3821011ca10b7f9e22
+[18:53:50] [A] INFO:     127.0.0.1:47676 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:50] [A] Mined header hash: 3e292cba5ff2f912cbf6770aacb74421124f5a03571d3bbe2a3519eaa1e628e2
+[18:53:50] [A] INFO:     127.0.0.1:47677 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:50] [A] INFO:     127.0.0.1:47679 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:50] [A] INFO:     127.0.0.1:47678 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:50] [A] INFO:     127.0.0.1:47680 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:50] [A] INFO:     127.0.0.1:47681 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:50] [A] Mined header hash: 1388bae413b987a1bd12e17aa347eb97b2f00e468bc8817546c3c42ca4cf0fbd
+[18:53:50] [A] INFO:     127.0.0.1:47682 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:50] [A] INFO:     127.0.0.1:47683 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:50] [A] INFO:     127.0.0.1:47684 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:50] [MINER SMELLY_MONITOR_A] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=784e5ea5ba801934e14d56567e39621cbf999cc64c8b464cccb12d5cb14f5595 submitted=1388bae413b987a1bd12e17aa347eb97b2f00e468bc8817546c3c42ca4cf0fbd height=719 included=1'}}
+[18:53:50] [A] INFO:     127.0.0.1:47685 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:51] [A] INFO:     127.0.0.1:47686 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:51] [A] Mined header hash: ac8124cdb4166856db81a8b6751d46c02e80bbf3c0334ed4b285002ab23e050f
+[18:53:51] [A] INFO:     127.0.0.1:47687 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:51] [A] INFO:     127.0.0.1:47688 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:51] [A] INFO:     127.0.0.1:47689 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:51] [A] INFO:     127.0.0.1:47690 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:51] [MINER SMELLY_MONITOR_B] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=1995af1866772f1bba3674fe85b8a55f34257995544c7e728c335a990537ab97 submitted=ac8124cdb4166856db81a8b6751d46c02e80bbf3c0334ed4b285002ab23e050f height=720 included=1'}}
+[18:53:51] [A] INFO:     127.0.0.1:47691 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:52] [A] Mined header hash: 4b25601b72a7dfc49e936bbd714f55f3eea29234b2f84037e0ac5eeffd7f552b
+[18:53:52] [A] INFO:     127.0.0.1:47692 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:52] [A] INFO:     127.0.0.1:47693 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:52] [A] INFO:     127.0.0.1:47694 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:52] [A] INFO:     127.0.0.1:47695 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:52] [A] INFO:     127.0.0.1:47696 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:52] [A] Mined header hash: 845f3442721c1fb1660511d449d59f69db453ee9cbe5e52849aa00837a5fa64a
+[18:53:52] [A] INFO:     127.0.0.1:47697 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:52] [A] INFO:     127.0.0.1:47698 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:52] [A] INFO:     127.0.0.1:47699 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:52] [A] INFO:     127.0.0.1:47700 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:53] [A] INFO:     127.0.0.1:47701 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:53] [A] Mined header hash: 429bc396e47378ca2801e8a45493b847a224eebb2015e58cc4a52690fb83010d
+[18:53:53] [A] INFO:     127.0.0.1:47702 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:53:53] [B] INFO:     127.0.0.1:47703 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:53:53] [A] INFO:     127.0.0.1:47704 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:53:53] [SUMMARY] A=722 B=722 mempoolA=0
+[18:53:53] [A] INFO:     127.0.0.1:47705 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:53] [A] INFO:     127.0.0.1:47706 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:53] [A] INFO:     127.0.0.1:47707 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:53] [A] INFO:     127.0.0.1:47708 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:53] [A] INFO:     127.0.0.1:47709 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:54] [A] Mined header hash: a859c6d32fe832ef9ab192082e231a8e3be2baca148563fe5e9b2a35d82dbbc8
+[18:53:54] [A] INFO:     127.0.0.1:47710 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:54] [A] INFO:     127.0.0.1:47711 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:54] [A] INFO:     127.0.0.1:47713 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:54] [A] INFO:     127.0.0.1:47712 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:54] [A] Mined header hash: 3897f17f4fdcc3f4563861b70cf42aa9ab628a25e7fa4d35cd2458a155c00998
+[18:53:54] [A] INFO:     127.0.0.1:47714 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:54] [A] INFO:     127.0.0.1:47717 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:54] [A] INFO:     127.0.0.1:47716 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:54] [A] Mined header hash: 367ad39e2c2063a49451b93e01e6164334fcd42e588ce9e63c5b8e0b8816815e
+[18:53:54] [A] INFO:     127.0.0.1:47718 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:55] [A] INFO:     127.0.0.1:47719 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:55] [A] INFO:     127.0.0.1:47720 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:55] [A] INFO:     127.0.0.1:47721 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:53:55] [A] Mined header hash: efebc9b8b024422ccfc605cc285b6694476fa9d59398d7e61e68da69d45ca03d
+[18:53:55] [A] INFO:     127.0.0.1:47722 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:55] [A] INFO:     127.0.0.1:47723 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:55] [A] INFO:     127.0.0.1:47724 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:53:55] [A] INFO:     127.0.0.1:47725 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:53:55] Shutting down children...
+[18:53:57] Monitor finished.

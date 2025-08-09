@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- Loading overlay -->
+<div id="loader" class="fixed inset-0 bg-black/95 z-50 flex items-center justify-center">
+  <div class="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+</div>
+
+<div class="max-w-md mx-auto card p-6" x-init="$nextTick(()=>document.getElementById('loader')?.classList.add('hidden'))">
+  <h1 class="text-2xl font-extrabold text-yellow-400 mb-4">Welcome to SMELLY Wallet</h1>
+  <p class="text-sm text-gray-300 mb-4">Login to your account or create/restore a wallet. Yellow and Black, modern and secure.</p>
+
+  <div class="space-y-4">
+    <div>
+      <label class="block text-sm mb-1">Username</label>
+      <input id="username" class="w-full bg-black/30 px-3 py-2 rounded border border-yellow-700/40" placeholder="yourname"/>
+    </div>
+    <div>
+      <label class="block text-sm mb-1">Password</label>
+      <input id="password" type="password" class="w-full bg-black/30 px-3 py-2 rounded border border-yellow-700/40" placeholder="••••••••"/>
+    </div>
+    <div class="flex gap-2">
+      <button onclick="doLogin()" class="brand px-3 py-2 rounded font-semibold">Login</button>
+      <button onclick="doRegister()" class="brand px-3 py-2 rounded font-semibold">Register</button>
+    </div>
+  </div>
+
+  <hr class="my-6 border-yellow-900/40"/>
+
+  <div class="space-y-2">
+    <h2 class="text-yellow-400 font-bold">No wallet yet?</h2>
+    <p class="text-sm text-gray-300">After logging in, you can create or restore your wallet from the Dashboard. You will stay signed in—no need to re-enter your mnemonic for routine actions.</p>
+  </div>
+</div>
+
+<script>
+async function doRegister() {
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value;
+  if (!u || !p) { alert('Enter username and password'); return; }
+  const r = await fetch('/auth/register',{method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({username:u,password:p})});
+  if (r.ok) { alert('Registered. Now login.'); } else { const j=await r.json(); alert(j.detail||JSON.stringify(j)); }
+}
+async function doLogin() {
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value;
+  if (!u || !p) { alert('Enter username and password'); return; }
+  const r = await fetch('/auth/login',{method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({username:u,password:p})});
+  if (r.ok) { location.href='/dashboard'; } else { const j=await r.json(); alert(j.detail||JSON.stringify(j)); }
+}
+</script>
+{% endblock %}

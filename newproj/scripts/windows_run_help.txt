@@ -1,0 +1,83 @@
+SMELLY Chain - Windows Run Guide (No Docker)
+
+Prereqs:
+1) Install Python 3.11+ from python.org and ensure "Add python.exe to PATH" is checked.
+2) In PowerShell or CMD:
+   python -m venv .venv
+   .venv\Scripts\activate
+   pip install --upgrade pip
+   pip install -r requirements.txt
+
+Initialization (recommended way with unified launcher):
+   python -m tools.run init
+
+Unified launcher behavior:
+- Automatically ensures dependent services are running:
+  * solo-miner ensures node JSON-RPC is up (starts it in a background thread if needed)
+  * pool-miner ensures the Stratum pool is running (auto-starts in-process if needed)
+  * wallet-backend ensures node JSON-RPC is up
+  * wallet-ui ensures wallet-backend is up
+  * explorer ensures node JSON-RPC is up
+- Health checks:
+  * Node JSON-RPC: http://127.0.0.1:<rpc_port>/rpc/get_height
+  * Wallet backend: http://127.0.0.1:<web_wallet_port>/wallet/accounts
+  * Pool: started in background; TCP service (no HTTP health check)
+
+Starting services using the unified launcher (each in a separate terminal with venv active):
+1) Core node + JSON-RPC:
+   python -m tools.run node
+   - Keep this process running to host the node’s RPC. The launcher will keep the process alive.
+
+2) Wallet Backend API (same host/port as config web_wallet_port=28450):
+   python -m tools.run wallet-backend
+   - The launcher will auto-start the node RPC if it is not running.
+
+3) Web Wallet UI (served on web_wallet_port=28450):
+   python -m tools.run wallet-ui
+   - The launcher will auto-start the wallet backend if it is not running.
+   Open http://127.0.0.1:28450
+
+4) Masternode (heartbeats at /mn/heartbeat):
+   python -m tools.run masternode
+
+5) Mining Pool (Stratum-like TCP on pool_port=28446):
+   python -m tools.run pool
+   - The launcher will auto-start the node RPC if it is not running.
+
+6) Solo Miner (submits /rpc/mine_one to node):
+   Basic:
+     python -m tools.run solo-miner
+   With arguments:
+     python -m tools.run solo-miner -- --miner-address SMELLY_SOLO --loop
+   - The launcher will auto-start the node RPC if it is not running.
+
+7) Pool Miner (connects to Stratum server):
+   Basic:
+     python -m tools.run pool-miner
+   With arguments (pass-through after “--”):
+     python -m tools.run pool-miner -- --host 127.0.0.1 --port 28446 --address SMELLY_POOL_MINER --intensity 2
+   - The launcher will auto-start the pool server if it is not running.
+
+8) Block Explorer (simple UI on explorer_port=28448):
+   python -m tools.run explorer
+   - The launcher will auto-start the node RPC if it is not running.
+   Open http://127.0.0.1:28448
+
+Alternative direct invocation (requires editable install OR PYTHONPATH):
+- Option A (editable install):
+    pip install -e .
+    python tools\init_dev_data.py
+    python apps\node\main.py
+    ...
+- Option B (temporary PYTHONPATH for current terminal):
+    scripts\smelly_env.bat
+    python tools\init_dev_data.py
+    python apps\node\main.py
+    ...
+
+Notes:
+- Config is at configs\defaults.yaml (yellow/black theme, address prefix SMELLY_).
+- Database is SQLite at data\smelly.db.
+- This reference implementation is for development and demonstrations only.
+- Replace PoW randomx_stub with a real RandomX native binding for ASIC resistance.
+- Use audited crypto libraries and add RPC authentication + rate limiting before production.

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smelly-chain"
+version = "0.1.0"
+description = "SMELLY Chain reference implementation (Windows, no Docker)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["core", "apps*", "tools*", "configs*", "scripts*"]
+
+[tool.setuptools]
+package-dir = { }

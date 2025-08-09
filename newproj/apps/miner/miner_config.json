@@ -1,0 +1,21 @@
+{
+  "network": {
+    "rpc_host": "127.0.0.1",
+    "rpc_port": 28445,
+    "protocol": "stratum+tcp"
+  },
+  "miner": {
+    "default_address": "SMELLY_SOLO_ADDRESS",
+    "threads": 4,
+    "intensity": 6,
+    "cuda_devices": "0",
+    "opencl_devices": "0"
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "miner.log"
+  },
+  "performance": {
+    "auto_tune": true
+  }
+}

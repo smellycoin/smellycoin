@@ -1,0 +1,176 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- Hard-define component BEFORE usage to guarantee variables/methods exist -->
+<script>
+window.walletMgmt = function() {
+  return {
+    // reactive state (explicit defaults)
+    wallets: [],
+    editId: null,
+    editName: '',
+    exportWords: null,
+    showCreate: false, // controls modal visibility
+    createName: 'Main Wallet',
+    passphrase: '',
+    mnemonic: '',
+    // lifecycle
+    async init() {
+      this.showCreate = false; // ensure modal closed on page load
+      await this.refresh();
+    },
+    // helpers
+    fmtTime(ms) { try { return new Date(ms).toLocaleString(); } catch(e) { return String(ms||'-'); } },
+    // actions
+    async refresh() {
+      try {
+        const rows = await fetch('/api/v1/accounts').then(r=>r.json());
+        this.wallets = Array.isArray(rows) ? rows : [];
+      } catch(e) { this.wallets = []; }
+    },
+    async select(id) {
+      try {
+        const r = await fetch('/api/v1/wallet/select', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({account_id:id})});
+        if (!r.ok) { const j = await r.json().catch(()=>({detail:'error'})); alert('Select failed: '+(j.detail||r.status)); return; }
+        location.href='/dashboard';
+      } catch(e){ alert('Select error.'); }
+    },
+    async exportMnemonic(id) {
+      const passphrase = prompt('Enter wallet passphrase to decrypt mnemonic:'); if (!passphrase) return;
+      try {
+        const r = await fetch('/api/v1/wallet/export_mnemonic', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({account_id:id, passphrase})});
+        const j = await r.json(); if (!r.ok || !j.mnemonic) { alert('Export failed: '+(j.detail||r.status)); return; }
+        this.exportWords = j.mnemonic;
+      } catch(e){ alert('Export error.'); }
+    },
+    genMnemonic() {
+      const wordlist = ['yellow','black','miner','block','chain','header','target','nonce','reward','fee','address','smelly','hash','wallet','random','pow','sync','node','mempool','submit','coin','genesis','height','key','seed','secure','privacy','fast','stable','modern'];
+      const pick = () => wordlist[Math.floor(Math.random()*wordlist.length)];
+      this.mnemonic = Array.from({length:12}, pick).join(' ');
+    },
+    openCreate() {
+      // seed mnemonic if empty
+      if (!this.mnemonic) this.genMnemonic();
+      this.showCreate = true;
+      // focus after a tick
+      setTimeout(()=>{ const el=document.getElementById('createModal'); if (el) el.focus(); }, 0);
+    },
+    closeCreate() {
+      this.showCreate = false;
+    },
+    async createNow() {
+      if (!this.createName) { alert('Enter a wallet name'); return; }
+      if (!this.passphrase) { alert('Enter a passphrase (used to encrypt keys)'); return; }
+      try {
+        const r = await fetch('/api/v1/wallet/create', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ name:this.createName, passphrase:this.passphrase, mnemonic:this.mnemonic })});
+        const j = await r.json();
+        if (!r.ok) { alert('Create failed: ' + (j.detail || r.status)); return; }
+        this.showCreate = false; this.createName='Main Wallet'; this.passphrase=''; this.mnemonic='';
+        await this.refresh();
+        alert('Wallet created.');
+        location.reload();
+      } catch(e){ alert('Create error.'); }
+    }
+  };
+};
+</script>
+
+<!-- Bind to a COMPONENT FUNCTION so Alpine instantiates a fresh reactive scope. -->
+<div class="max-w-6xl mx-auto card p-6" x-data="walletMgmt()" x-init="init()">
+  <h1 class="text-2xl font-extrabold text-yellow-400 mb-4">Wallet Management</h1>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <section class="lg:col-span-2">
+      <div class="card p-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-yellow-400 text-xl font-bold mb-3">Wallets</h2>
+          <div class="space-x-2">
+<button class="brand px-3 py-2 rounded text-sm" @click="refresh()">Refresh</button>
+<!-- Disabled create button with tooltip; does NOT toggle modal -->
+<button class="px-3 py-2 rounded text-sm border border-yellow-800/60 text-yellow-700 cursor-not-allowed" disabled title="Create wallet is under development and will be enabled soon.">Create New Wallet (under dev)</button>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full">
+            <thead>
+              <tr class="text-left text-sm text-gray-300">
+                <th class="py-2 pr-4">ID</th>
+                <th class="py-2 pr-4">Name</th>
+                <th class="py-2 pr-4">Created</th>
+                <th class="py-2 pr-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="text-sm">
+              <template x-for="w in wallets" :key="w.id">
+                <tr class="border-t border-yellow-900/30">
+                  <td class="py-2 pr-4" x-text="w.id"></td>
+                  <td class="py-2 pr-4">
+                    <template x-if="editId!==w.id">
+                      <span x-text="w.name"></span>
+                    </template>
+                    <template x-if="editId===w.id">
+                      <input class="bg-black/30 px-2 py-1 rounded border border-yellow-700/40" x-model="editName"/>
+                    </template>
+                  </td>
+                  <td class="py-2 pr-4" x-text="fmtTime(w.created_ms)"></td>
+                  <td class="py-2 pr-4 space-x-2">
+                    <button class="brand px-2 py-1 rounded" @click="select(w.id)">Select</button>
+                    <template x-if="editId!==w.id">
+                      <button class="brand px-2 py-1 rounded" @click="startRename(w)">Rename</button>
+                    </template>
+                    <template x-if="editId===w.id">
+                      <button class="brand px-2 py-1 rounded" @click="saveRename(w.id)">Save</button>
+                      <button class="px-2 py-1 rounded border border-yellow-700/40" @click="cancelRename()">Cancel</button>
+                    </template>
+                    <button class="px-2 py-1 rounded border border-yellow-700/40" @click="exportMnemonic(w.id)">Export Mnemonic</button>
+                    <button class="px-2 py-1 rounded border border-red-700/40 text-red-300" @click="removeWallet(w)">Remove</button>
+                  </td>
+                </tr>
+              </template>
+              <tr x-show="wallets.length===0">
+                <td class="py-3 text-gray-400" colspan="4">No wallets found. Create or restore from the Dashboard.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-xs text-gray-400 mt-3">
+          Manage wallets: select to bind session; export requires your wallet passphrase.
+        </div>
+      </div>
+    </section>
+
+    <aside>
+      <div class="card p-4">
+        <h2 class="text-yellow-400 text-xl font-bold mb-3">Security</h2>
+        <div class="text-sm text-gray-300">Session</div>
+        <div class="text-xs text-gray-400 mb-3">Cookies are HttpOnly; CSRF is required for mutating API calls.</div>
+        <div class="text-sm text-gray-300">Future</div>
+        <ul class="list-disc list-inside text-xs text-gray-400">
+          <li>Passkeys (WebAuthn)</li>
+          <li>TOTP 2FA</li>
+          <li>Client-side encrypted keys (WebCrypto)</li>
+        </ul>
+      </div>
+      <div class="card p-4 mt-4" x-show="exportWords">
+        <h2 class="text-yellow-400 text-xl font-bold mb-3">Mnemonic (sensitive)</h2>
+        <div class="mono bg-black/30 p-2 rounded" x-text="exportWords"></div>
+        <div class="text-xs text-gray-400 mt-2">Store this securely and never share it. This grants full control over your funds.</div>
+        <button class="brand px-3 py-2 rounded font-semibold mt-3 w-full" @click="exportWords=null">Hide</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- component defined above; no duplicate definitions -->
+
+<!-- Modal scaffold kept but disabled; ensure it never opens accidentally -->
+<template x-teleport="body">
+  <div x-show="false" x-cloak class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+    <!-- Backdrop -->
+    <div class="absolute inset-0"></div>
+    <!-- Dialog centered (kept inert) -->
+    <div id="createModal" class="relative card p-6 w-full max-w-lg border border-yellow-900/50 shadow-xl shadow-black/50 translate-x-[-9999px]">
+      <!-- intentionally hidden -->
+    </div>
+  </div>
+</template>
+{% endblock %}

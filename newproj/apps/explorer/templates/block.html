@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Block {{hdr.height}} - SMELLY</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const el = document.getElementById('loader'); if(el) el.classList.add('hidden');
+    });
+  </script>
+</head>
+<body>
+  <div id="loader" class="loader-overlay"><div class="spinner"></div></div>
+  <div class="header">
+    <div>SMELLY Explorer</div>
+    <div class="small"><a href="/">Home</a> | <a href="/mempool">Mempool</a> | <a href="/admin/fairness">Fairness</a></div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h2>Block {{hdr.height}}</h2>
+      <div><b>Hash:</b> <span class="mono">{{hdr.hash}}</span></div>
+      <div><b>Prev:</b> <span class="mono">{{hdr.prev_hash}}</span></div>
+      <div><b>Timestamp:</b> {{hdr.timestamp}}</div>
+      <div><b>Version:</b> {{hdr.version}}</div>
+      <div><b>Target:</b> <span class="mono">{{hdr.target}}</span></div>
+      <div><b>Nonce:</b> {{hdr.nonce}}</div>
+      <div><b>Miner:</b> <a class="mono" href="/address/{{hdr.miner}}">{{hdr.miner}}</a></div>
+      <div><b>Tx Count:</b> {{hdr.tx_count}}</div>
+      <div><b>Cumulative Work:</b> <span class="mono">{{hdr.work}}</span></div>
+      <div><b>Coinbase Txid:</b> <a class="mono" href="/tx/{{hdr.coinbase_txid}}">{{hdr.coinbase_txid}}</a></div>
+    </div>
+    <a href="/">Back</a>
+  </div>
+</body>
+</html>

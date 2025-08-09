@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ title or "SMELLY Wallet" }}</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Define Alpine factories and placeholders BEFORE Alpine loads -->
+  <script>
+    // Global placeholders to avoid "is not defined" during initial Alpine parse
+    window._SMELLY_DEFAULTS = {
+      status: { height: -1, lastHash: '' },
+      balances: { confirmed: 0.0, unconfirmed: 0.0 },
+      accountAddress: "{{ account_address or '' }}"
+    };
+
+    // Alpine layout component factory (header/status), safe defaults
+    window.walletLayout = function() {
+      return {
+        status: JSON.parse(JSON.stringify(window._SMELLY_DEFAULTS.status)),
+        balances: JSON.parse(JSON.stringify(window._SMELLY_DEFAULTS.balances)),
+        accountAddress: window._SMELLY_DEFAULTS.accountAddress,
+        init() {
+          // Ensure types are sane for bindings
+          if (!this.status) this.status = { height: -1, lastHash: '' };
+          if (typeof this.status.lastHash !== 'string') this.status.lastHash = '';
+          if (!this.balances) this.balances = { confirmed: 0.0, unconfirmed: 0.0 };
+          if (typeof this.balances.confirmed !== 'number') this.balances.confirmed = 0.0;
+          if (typeof this.balances.unconfirmed !== 'number') this.balances.unconfirmed = 0.0;
+          this.refresh();
+          this._timer = setInterval(() => this.refresh(), 10000);
+        },
+        async refresh() {
+          try {
+            // Prefer wallet backend helper
+            const rh = await fetch('/api/v1/node/height').then(r => r.ok ? r.json() : Promise.reject());
+            if (typeof rh.height === 'number') this.status.height = rh.height;
+          } catch (e) {
+            try {
+              const h = await fetch('/rpc/get_height').then(r => r.ok ? r.json() : Promise.reject());
+              if (h && typeof h.height === 'number') this.status.height = h.height;
+            } catch {}
+          }
+          if (this.status.height >= 0) {
+            try {
+              const bh = await fetch(`/rpc/get_header_by_height/${this.status.height}`).then(r => r.ok ? r.json() : Promise.reject());
+              this.status.lastHash = (bh && typeof bh.hash === 'string') ? bh.hash : (this.status.lastHash || '');
+            } catch {}
+          }
+          if (this.accountAddress) {
+            try {
+              const b = await fetch(`/api/v1/address/${this.accountAddress}/balance`).then(r => r.ok ? r.json() : Promise.reject());
+              this.balances.confirmed = Number(b.balance || 0);
+              this.balances.unconfirmed = Number(0);
+            } catch {}
+          }
+        }
+      };
+    };
+
+    // Wallet page component placeholders so x-data="walletMgmt()" doesn't error if page defines later
+    window.walletMgmt = window.walletMgmt || function() {
+      return {
+        // modal + fields
+        showCreate: false,
+        createName: '',
+        passphrase: '',
+        mnemonic: '',
+        // list + misc
+        wallets: [],
+        editId: null,
+        editName: '',
+        exportWords: null,
+        // no-op init; page may override with real implementation
+        async init() { /* placeholder to satisfy x-init */ },
+        openCreate() { this.showCreate = true; },
+        closeCreate() { this.showCreate = false; }
+      };
+    };
+  </script>
+  <!-- Load Alpine AFTER factories to avoid "is not defined" -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    :root { --primary:#FFD000; --bg:#0b0b0b; --panel:#161616; --text:#f1f1f1; }
+    html,body { background: var(--bg); color: var(--text); font-family: Segoe UI, Roboto, Arial, sans-serif; }
+    .brand { color:#000; background:var(--primary) }
+    .card { background:var(--panel); border:1px solid #222; border-radius:12px; }
+    .mono { font-family: Consolas, monospace; word-break: break-all; }
+    a { color:#FFD000; }
+    .nav-link { padding: 0.5rem 0.75rem; border-radius: 6px; }
+    .nav-link:hover { background: rgba(255,208,0,0.15); }
+  </style>
+</head>
+<body x-data="walletLayout()" x-init="init()" class="min-h-screen">
+  <header class="brand">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="font-extrabold tracking-wide">SMELLY Wallet</div>
+      <nav class="flex items-center gap-1 text-sm">
+        <a class="nav-link" href="/dashboard">Dashboard</a>
+        <a class="nav-link" href="/send">Send</a>
+        <a class="nav-link" href="/addresses">Addresses</a>
+        <a class="nav-link" href="/utxos">UTXOs</a>
+        <a class="nav-link" href="/txs">Transactions</a>
+        <a class="nav-link" href="/blocks">Blocks</a>
+        <a class="nav-link" href="/wallet">Wallet</a>
+        <form action="/auth/logout" method="post" class="ml-2">
+          <button class="px-3 py-1 rounded bg-black/80 text-yellow-400 border border-yellow-500 hover:bg-black">Logout</button>
+        </form>
+      </nav>
+    </div>
+    <div class="bg-black/30 border-t border-yellow-600/40">
+      <div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between text-sm">
+        <div>
+          Chain height:
+          <span class="font-bold" x-text="status.height">-</span>
+          <span class="ml-3">Last block:</span>
+          <span class="mono" x-text="status.lastHash.slice(0,16)+'...'">-</span>
+        </div>
+        <div>
+          Confirmed:
+          <span class="font-bold" x-text="balances.confirmed.toFixed(6) + ' SMELLY'">0</span>
+          <span class="ml-3">Unconfirmed:</span>
+          <span class="font-bold" x-text="balances.unconfirmed.toFixed(6) + ' SMELLY'">0</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-5">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="mt-10 py-6 text-center text-xs text-gray-400">
+    <div>SMELLY &mdash; Yellow and Black. Header-first chain demo.</div>
+  </footer>
+
+<!-- Remove duplicate trailing scripts; factories are defined in <head> before Alpine. -->
+</body>
+</html>

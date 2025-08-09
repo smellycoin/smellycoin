@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Pool - SMELLY</title>
+  <meta http-equiv="refresh" content="10"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+  <div class="header">
+    <div>SMELLY Explorer</div>
+    <div class="small"><a href="/">Home</a> | <a href="/mempool">Mempool</a></div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h2>Pool Overview</h2>
+      <div>Backend: <span class="badge">{{backend}}</span></div>
+      <div>Share Diff: <span class="badge">{{share_diff}}</span></div>
+      <div>Total Hashrate (est.): {{total_hashrate}} H/s</div>
+      <div>Connected Miners: {{miner_count}}</div>
+      <div>Accepted Shares (5m): {{accepted_5m}} | Rejected (5m): {{rejected_5m}}</div>
+    </div>
+
+    <div class="card">
+      <h3>Connected Miners</h3>
+      <table class="table">
+        <thead><tr><th>Miner</th><th>Accepted</th><th>Rejected</th><th>Last Submit (ms)</th><th>Hashrate est. (H/s)</th></tr></thead>
+        <tbody>
+        {% for m in miners %}
+          <tr>
+            <td class="mono">{{m.addr}}</td>
+            <td>{{m.accepted}}</td>
+            <td>{{m.rejected}}</td>
+            <td>{{m.last_submit_ms}}</td>
+            <td>{{m.hashrate}}</td>
+          </tr>
+        {% endfor %}
+        {% if not miners %}<tr><td colspan="5" class="small">No miners connected</td></tr>{% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Recent Pool Blocks</h3>
+      <table class="table">
+        <thead><tr><th>Height</th><th>Hash</th><th>Miner</th><th>Time</th></tr></thead>
+        <tbody>
+        {% for b in blocks %}
+          <tr>
+            <td><a href="/block/{{b.hash}}">{{b.height}}</a></td>
+            <td class="mono"><a href="/block/{{b.hash}}">{{b.hash[:24]}}...</a></td>
+            <td class="mono">{{b.miner}}</td>
+            <td>{{b.timestamp}}</td>
+          </tr>
+        {% endfor %}
+        {% if not blocks %}<tr><td colspan="4" class="small">No recent pool-found blocks recorded</td></tr>{% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

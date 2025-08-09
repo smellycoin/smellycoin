@@ -1,0 +1,430 @@
+[18:45:44] Logging to E:\newproj\logs\monitor_20250805_184544.log
+[18:45:44] Started Node A (RPC 28445, P2P 28447) PID=66956
+[18:45:44] Started Node B (RPC 38555, P2P 38557) PID=62744
+[18:45:44] Started Explorer PID=66432
+[18:45:45] [EXP] E:\newproj\apps\explorer\server.py:363: DeprecationWarning:
+[18:45:45] [EXP]         on_event is deprecated, use lifespan event handlers instead.
+[18:45:45] [EXP] 
+[18:45:45] [EXP]         Read more about it in the
+[18:45:45] [EXP]         [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+[18:45:45] [EXP] 
+[18:45:45] [EXP]   @app.on_event("startup")
+[18:45:45] [EXP] INFO:     Started server process [66432]
+[18:45:45] [EXP] INFO:     Waiting for application startup.
+[18:45:45] [EXP] INFO:     Application startup complete.
+[18:45:45] [EXP] INFO:     Uvicorn running on http://127.0.0.1:28448 (Press CTRL+C to quit)
+[18:45:45] [B] INFO:     Started server process [62744]
+[18:45:45] [B] INFO:     Waiting for application startup.
+[18:45:45] [B] INFO:     Application startup complete.
+[18:45:45] [B] INFO:     Uvicorn running on http://127.0.0.1:38555 (Press CTRL+C to quit)
+[18:45:45] [A] INFO:     Started server process [66956]
+[18:45:45] [A] INFO:     Waiting for application startup.
+[18:45:45] [A] INFO:     Application startup complete.
+[18:45:45] [A] INFO:     Uvicorn running on http://127.0.0.1:28445 (Press CTRL+C to quit)
+[18:45:45] [A] SMELLY Node RPC + P2P started.
+[18:45:45] [A] Mining enabled. Submitting header-only blocks...
+[18:45:45] [A] P2P listening on 127.0.0.1:28447
+[18:45:45] [A] INFO:     127.0.0.1:20302 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:45:45] [B] SMELLY Node RPC + P2P started.
+[18:45:45] [B] P2P listening on 127.0.0.1:38557
+[18:45:45] [B] INFO:     127.0.0.1:20312 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:45:45] [A] INFO:     127.0.0.1:20313 - "POST /rpc/p2p/connect?addr=127.0.0.1%3A38557 HTTP/1.1" 200 OK
+[18:45:45] A -> B connect OK
+[18:45:45] [B] P2P conn error: 127.0.0.1:20314 [WinError 10053] An established connection was aborted by the software in your host machine
+[18:45:45] B -> A connect OK
+[18:45:45] [B] INFO:     127.0.0.1:20315 - "POST /rpc/p2p/connect?addr=127.0.0.1%3A28447 HTTP/1.1" 200 OK
+[18:45:45] [A] P2P conn error: 127.0.0.1:20316 [WinError 10053] An established connection was aborted by the software in your host machine
+[18:45:45] [A] INFO:     127.0.0.1:20317 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:45] [A] INFO:     127.0.0.1:20318 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:45:45] [B] INFO:     127.0.0.1:20320 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:45:45] [A] INFO:     127.0.0.1:20321 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:45:45] [SUMMARY] A=627 B=627 mempoolA=0
+[18:45:45] [A] INFO:     127.0.0.1:20319 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:45] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=e7d3687d863a1031c32fce985c200fd8073418e0169a2913350f404c868419c6 submitted=89f7d3849dbc08db6076bff16ff68ef2aeb61139ff021ba582e5141faa6b3496 height=628 included=1'}}
+[18:45:46] [A] INFO:     127.0.0.1:20309 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:46] [A] Mined header hash: 7b05bc246813958ec539538f6ee2f777436b342de91dc7af12fc83882be2f856
+[18:45:46] [A] INFO:     127.0.0.1:20322 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:46] [A] INFO:     127.0.0.1:20323 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:46] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=51eecdc44dbcfeaff34e42505ac712be39773258d456d43a16f8de244ff4d634 submitted=7b05bc246813958ec539538f6ee2f777436b342de91dc7af12fc83882be2f856 height=629 included=1'}}
+[18:45:46] [A] INFO:     127.0.0.1:20324 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:46] [A] Mined header hash: a93a7d43926898a6c226f9be077557e9a61595050d6ac95672ba975cf04019f9
+[18:45:46] [A] INFO:     127.0.0.1:20325 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:46] [A] INFO:     127.0.0.1:20326 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:46] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=2a06b3b7c7405352363d0ad3d139c750e7484137dd1838b59d99ac16abb5cc76 submitted=a93a7d43926898a6c226f9be077557e9a61595050d6ac95672ba975cf04019f9 height=630 included=1'}}
+[18:45:47] [A] INFO:     127.0.0.1:20327 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:47] [A] Mined header hash: 79815c9ff7a9d7a234f53d4c19046b97f3809ffac6f111da5153a0db24cfcc55
+[18:45:47] [A] INFO:     127.0.0.1:20328 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:47] [A] INFO:     127.0.0.1:20329 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:47] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=6503bf5bc9e3595f0434ddf53ca56bbff3370d51702850ff274fdd964d5e61bd submitted=79815c9ff7a9d7a234f53d4c19046b97f3809ffac6f111da5153a0db24cfcc55 height=631 included=1'}}
+[18:45:48] [A] INFO:     127.0.0.1:20330 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:48] [A] Mined header hash: d445656d92d444a64079f1a318fb96f6b36f37aa309b66b66fd985cb0e3dffa0
+[18:45:48] [A] INFO:     127.0.0.1:20331 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:48] [A] INFO:     127.0.0.1:20332 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:48] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=11a7cf817c4e7a2bdddf33eda1e24a7609907a90a6fc5aef146a52e55bd74364 submitted=d445656d92d444a64079f1a318fb96f6b36f37aa309b66b66fd985cb0e3dffa0 height=632 included=1'}}
+[18:45:48] [A] INFO:     127.0.0.1:20333 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:48] [A] Mined header hash: 9e882ebc255f32a64b50fa935ba3f4acce4f902705b3740936e1c770531f28fc
+[18:45:48] [A] INFO:     127.0.0.1:20334 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:48] [A] INFO:     127.0.0.1:20335 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:48] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=7264510330aea2fd70e128bb4e8c6ee245096ccebd34612635c6b2c2b650c618 submitted=9e882ebc255f32a64b50fa935ba3f4acce4f902705b3740936e1c770531f28fc height=633 included=1'}}
+[18:45:49] [A] INFO:     127.0.0.1:20336 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:49] [A] Mined header hash: 48501753add8f9301fa0ed4bc105be0abe512500bf17983b27585b6941b1a756
+[18:45:49] [A] INFO:     127.0.0.1:20337 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:49] [A] INFO:     127.0.0.1:20338 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:49] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=670257b82f7c478e0ed9c57c9523307ce754d7d174211af8859e86c05d0058b0 submitted=48501753add8f9301fa0ed4bc105be0abe512500bf17983b27585b6941b1a756 height=634 included=1'}}
+[18:45:49] [A] INFO:     127.0.0.1:20339 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:49] [A] Mined header hash: d99ac95deabe70e27adea56565b4e036b5a4cc835ae13511910412ae3a18a14e
+[18:45:49] [A] INFO:     127.0.0.1:20340 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:49] [A] INFO:     127.0.0.1:20344 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:49] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=6b13b2fa3cf15de2dd0917205a6a31674ad609c2a0821db3b948d45dfe3fb5a1 submitted=d99ac95deabe70e27adea56565b4e036b5a4cc835ae13511910412ae3a18a14e height=635 included=1'}}
+[18:45:50] [A] INFO:     127.0.0.1:20347 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:50] [A] Mined header hash: 42905c0ac2a6192cc9b52c8695815e09f26372a5060cbbf33a41798e28e75443
+[18:45:50] [A] INFO:     127.0.0.1:20348 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:50] [A] INFO:     127.0.0.1:20349 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:50] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=7bb757147f01832b40c4ae1f992309f18af9c54b1bd71cd434d4b36231c2faf9 submitted=42905c0ac2a6192cc9b52c8695815e09f26372a5060cbbf33a41798e28e75443 height=636 included=1'}}
+[18:45:50] [A] INFO:     127.0.0.1:20350 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:45:50] [B] INFO:     127.0.0.1:20351 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:45:50] [A] INFO:     127.0.0.1:20352 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:45:50] [SUMMARY] A=635 B=635 mempoolA=0
+[18:45:51] [A] INFO:     127.0.0.1:20353 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:51] [A] Mined header hash: 79f3db3968edad6de99dd636307b4f5f401ddd4a9d478024c8d8233a567e14e7
+[18:45:51] [A] INFO:     127.0.0.1:20356 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:51] [A] INFO:     127.0.0.1:20357 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:51] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=e7c0450e37f32477f1320b1cb20da16aaa271fcc0c87ccf697326cdfa172c1f9 submitted=79f3db3968edad6de99dd636307b4f5f401ddd4a9d478024c8d8233a567e14e7 height=637 included=1'}}
+[18:45:51] [A] INFO:     127.0.0.1:20360 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:51] [A] Mined header hash: 334c72ad378735c05a91d4bcfdcaba56c3c1f23aa0a0c9290d18064c12f523bd
+[18:45:51] [A] INFO:     127.0.0.1:20361 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:51] [A] INFO:     127.0.0.1:20362 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:51] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=8ee8de8a89682a72755bcef70475863c15cd6403861be5c343240ca18b73f76a submitted=334c72ad378735c05a91d4bcfdcaba56c3c1f23aa0a0c9290d18064c12f523bd height=638 included=1'}}
+[18:45:52] [A] INFO:     127.0.0.1:20363 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:52] [A] Mined header hash: d87508113ca54ec2c5eb78571de495e4739dcb5eac45b56746e5e25efc312628
+[18:45:52] [A] INFO:     127.0.0.1:20364 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:52] [A] INFO:     127.0.0.1:20365 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:52] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=4d32ac314f3272cfa1fb66778595fcf232117a05ed1b5137299971f5814c5258 submitted=d87508113ca54ec2c5eb78571de495e4739dcb5eac45b56746e5e25efc312628 height=639 included=1'}}
+[18:45:52] [A] INFO:     127.0.0.1:20366 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:52] [A] Mined header hash: 3b38e0e060492ee01a8da35118fa7a18e7a662f5444502198df9323c1257980c
+[18:45:52] [A] INFO:     127.0.0.1:20367 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:52] [A] INFO:     127.0.0.1:20368 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:52] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=c4e85c7253f11db934721abb7451b650d2b8ce76bd7762c545746943a1266ff0 submitted=3b38e0e060492ee01a8da35118fa7a18e7a662f5444502198df9323c1257980c height=640 included=1'}}
+[18:45:53] [A] INFO:     127.0.0.1:20369 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:53] [A] Mined header hash: 2eb5edbbc87e5df0bba8d656d63ff4892057bad972f63e58634d892c624d5f5b
+[18:45:53] [A] INFO:     127.0.0.1:20370 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:53] [A] INFO:     127.0.0.1:20371 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:53] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=6f5d639f182a3acb82f7ee19f46742cafed8c6ad542b479d831f0e02fe107397 submitted=2eb5edbbc87e5df0bba8d656d63ff4892057bad972f63e58634d892c624d5f5b height=641 included=1'}}
+[18:45:54] [A] INFO:     127.0.0.1:20372 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:54] [A] Mined header hash: d1d4b1fbdf2cf00255ec8d5fc12767e5f2283dcde8bf87987e3fd932357026ea
+[18:45:54] [A] INFO:     127.0.0.1:20373 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:54] [A] INFO:     127.0.0.1:20374 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:54] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=3315fcd0dc4bf209d1548c8129105554eb00671423b22a7b847da272ae7ea241 submitted=d1d4b1fbdf2cf00255ec8d5fc12767e5f2283dcde8bf87987e3fd932357026ea height=642 included=1'}}
+[18:45:54] [A] INFO:     127.0.0.1:20375 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:54] [A] Mined header hash: c7cc8801936e849a7be795670e743d632aefba8869d7b6d35280b8a9cd85b5e8
+[18:45:54] [A] INFO:     127.0.0.1:20376 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:54] [A] INFO:     127.0.0.1:20377 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:54] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=d5b1d3bfb5338fae8841ee8b88a56631f08c3d661d22dab58a5bf73d01daded4 submitted=c7cc8801936e849a7be795670e743d632aefba8869d7b6d35280b8a9cd85b5e8 height=643 included=1'}}
+[18:45:55] [A] INFO:     127.0.0.1:20379 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:55] [A] Mined header hash: c615ab426e7ca5a6e6cc637c1f4e97c2134385a12a1c202b6da14d8cc6a5250e
+[18:45:55] [A] INFO:     127.0.0.1:20380 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:55] [A] INFO:     127.0.0.1:20381 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:55] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=e974b360c40a66ad6e9ecb6c2c99e940def65afedcc7ca03fffb58639b2f3563 submitted=c615ab426e7ca5a6e6cc637c1f4e97c2134385a12a1c202b6da14d8cc6a5250e height=644 included=1'}}
+[18:45:55] [A] INFO:     127.0.0.1:20382 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:45:55] [B] INFO:     127.0.0.1:20383 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:45:55] [A] INFO:     127.0.0.1:20385 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:45:55] [SUMMARY] A=643 B=643 mempoolA=0
+[18:45:55] [A] INFO:     127.0.0.1:20384 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:55] [A] Mined header hash: 19d0cc468a6fbb14d1e3d2fdbef5ba7475bb9d001ce327a43968ab50ff2816f5
+[18:45:55] [A] INFO:     127.0.0.1:20386 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:55] [A] INFO:     127.0.0.1:20387 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:55] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=7c240c2170032c6946685333b5060ccc2779625310382da82403283a9413e98c submitted=19d0cc468a6fbb14d1e3d2fdbef5ba7475bb9d001ce327a43968ab50ff2816f5 height=645 included=1'}}
+[18:45:56] [A] INFO:     127.0.0.1:20388 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:56] [A] Mined header hash: 25ec7ebf6bc5f768030d3da0eef5ce05d67247c580d427c0e574aa16117371fd
+[18:45:56] [A] INFO:     127.0.0.1:20389 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:56] [A] INFO:     127.0.0.1:20390 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:56] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=a014ad3e37b44cae164e31f1bc32f13c56e4d892189fd9a7176d1150c0d1c128 submitted=25ec7ebf6bc5f768030d3da0eef5ce05d67247c580d427c0e574aa16117371fd height=646 included=1'}}
+[18:45:57] [A] INFO:     127.0.0.1:20391 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:57] [A] Mined header hash: cfe39f6b7b1f94de597507e3955a297c8c1b300495e64bcf1c24ef9c594286db
+[18:45:57] [A] INFO:     127.0.0.1:20392 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:57] [A] INFO:     127.0.0.1:20393 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:57] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=9c8b9627ac5771d703b7cbc111e38de3034925928c7a6a0ea621269a79c92d4e submitted=cfe39f6b7b1f94de597507e3955a297c8c1b300495e64bcf1c24ef9c594286db height=647 included=1'}}
+[18:45:57] [A] INFO:     127.0.0.1:20394 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:57] [A] Mined header hash: 6e96c707b451d6999908a7283e49c23e88ab71bca2329df1cc5e9c650851aa62
+[18:45:57] [A] INFO:     127.0.0.1:20395 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:57] [A] INFO:     127.0.0.1:20396 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:57] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=f872a15e32799b05fc7583c7bf37df8116f6b83f3208c589cc3fa84afde5f2c9 submitted=6e96c707b451d6999908a7283e49c23e88ab71bca2329df1cc5e9c650851aa62 height=648 included=1'}}
+[18:45:58] [A] INFO:     127.0.0.1:20397 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:58] [A] Mined header hash: 95558d4a2fd569b5aca1e84f3e81fb718d80083dfa46204b1ae4bafca13abb18
+[18:45:58] [A] INFO:     127.0.0.1:20398 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:58] [A] INFO:     127.0.0.1:20399 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:58] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=cf0231a17c1c15cece99d4cb6fc8208e3158d11cb70fc8f7416494238aa0f163 submitted=95558d4a2fd569b5aca1e84f3e81fb718d80083dfa46204b1ae4bafca13abb18 height=649 included=1'}}
+[18:45:58] [A] INFO:     127.0.0.1:20400 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:58] [A] Mined header hash: e44c3118e3fd93f7d1ee63a17f0915ab7e3d537bbdc88c63c2bffead969a0edc
+[18:45:58] [A] INFO:     127.0.0.1:20401 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:58] [A] INFO:     127.0.0.1:20402 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:58] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=59a204e972f0638438d3d614fefb24f37ae2d615bcca1852596a62fcbdad6cac submitted=e44c3118e3fd93f7d1ee63a17f0915ab7e3d537bbdc88c63c2bffead969a0edc height=650 included=1'}}
+[18:45:59] [A] INFO:     127.0.0.1:20403 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:45:59] [A] Mined header hash: 2999a977c47429732f8c89256e90ce1ccbcc9d654e6ff3e61575bc5844f330ea
+[18:45:59] [A] INFO:     127.0.0.1:20404 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:45:59] [A] INFO:     127.0.0.1:20405 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:45:59] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=d2d96b9bc975be46c1d3e743622c18e392da7f94f7682ea392e20366ac5e5e3a submitted=2999a977c47429732f8c89256e90ce1ccbcc9d654e6ff3e61575bc5844f330ea height=651 included=1'}}
+[18:46:00] [A] INFO:     127.0.0.1:20406 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:00] [A] Mined header hash: 2f817da24682fe6aea3ac8720545e8a2e5cc6c2552f981836c936ec967a87db3
+[18:46:00] [A] INFO:     127.0.0.1:20407 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:00] [A] INFO:     127.0.0.1:20408 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:00] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=ef06b2839551b6ac8aff363330facd61854eed42374974387448003e2fd7a2f0 submitted=2f817da24682fe6aea3ac8720545e8a2e5cc6c2552f981836c936ec967a87db3 height=652 included=1'}}
+[18:46:00] [A] INFO:     127.0.0.1:20409 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:00] [A] Mined header hash: 9f8c3a2ee6208751f4f4f5131b258e010775863c5681f815b17fee35dbba3b0e
+[18:46:00] [A] INFO:     127.0.0.1:20410 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:00] [A] INFO:     127.0.0.1:20411 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:00] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=64f3e66a0e78f94e497b247a83a808292bc898f0cc846b8d6cdbe37529ee07e7 submitted=9f8c3a2ee6208751f4f4f5131b258e010775863c5681f815b17fee35dbba3b0e height=653 included=1'}}
+[18:46:00] [A] INFO:     127.0.0.1:20412 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:00] [B] INFO:     127.0.0.1:20413 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:00] [A] INFO:     127.0.0.1:20414 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:46:00] [SUMMARY] A=652 B=652 mempoolA=0
+[18:46:01] [A] INFO:     127.0.0.1:20415 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:01] [A] Mined header hash: c8769e847ec1c60aff5028f751048f28db240b9583963cef69d269b913049035
+[18:46:01] [A] INFO:     127.0.0.1:20416 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:01] [A] INFO:     127.0.0.1:20417 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:01] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=b5e55b16b82130583e2e6732466cbbce6ea705f8dedd31e82ca70dcdcb563823 submitted=c8769e847ec1c60aff5028f751048f28db240b9583963cef69d269b913049035 height=654 included=1'}}
+[18:46:01] [A] INFO:     127.0.0.1:20418 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:01] [A] Mined header hash: 0484ca8ec69004aed2eca26cdfa82c1420e2114d1dc196075d354078960de748
+[18:46:01] [A] INFO:     127.0.0.1:20419 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:01] [A] INFO:     127.0.0.1:20420 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:01] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=544151892a25cb819304415a878a3c99daa462797dcc11286f7fbfec353b708a submitted=0484ca8ec69004aed2eca26cdfa82c1420e2114d1dc196075d354078960de748 height=655 included=1'}}
+[18:46:02] [A] INFO:     127.0.0.1:20421 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:02] [A] Mined header hash: 075433075e46a3e842a217a42755fc3f1f01bb23bb456a559cb2df12e920e527
+[18:46:02] [A] INFO:     127.0.0.1:20422 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:02] [A] INFO:     127.0.0.1:20423 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:02] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=5a4e6ad13d4874bac58e0f87078a0f8a0399c325f691dd254115663b61acaf77 submitted=075433075e46a3e842a217a42755fc3f1f01bb23bb456a559cb2df12e920e527 height=656 included=1'}}
+[18:46:02] [A] INFO:     127.0.0.1:20424 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:02] [A] Mined header hash: c181c7fe7bfd5ddc1fff891131b6e8719d5a25f638cc9e954db5b9f25bd4e7c5
+[18:46:02] [A] INFO:     127.0.0.1:20425 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:03] [A] INFO:     127.0.0.1:20426 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:03] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=ba2c1b6953cbb39c39f1a885bd9aaf7fc14e107a542a8f1173a2e12fe1af264b submitted=c181c7fe7bfd5ddc1fff891131b6e8719d5a25f638cc9e954db5b9f25bd4e7c5 height=657 included=1'}}
+[18:46:03] [A] INFO:     127.0.0.1:20427 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:03] [A] Mined header hash: d90fec9077983141380fbc9fb78b5ec5bb54beed9b3c11452d7cc50eb7cca529
+[18:46:03] [A] INFO:     127.0.0.1:20428 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:03] [A] INFO:     127.0.0.1:20429 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:03] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=7687807bcca35f6e5547548e9bc0031f88922d14b8006706980358e5787eb3e8 submitted=d90fec9077983141380fbc9fb78b5ec5bb54beed9b3c11452d7cc50eb7cca529 height=658 included=1'}}
+[18:46:04] [A] INFO:     127.0.0.1:20430 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:04] [A] INFO:     127.0.0.1:20431 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:04] [A] Mined header hash: a5447b15968948316cf39db0b77d9dd36a7e54ea17f91c0918e536906ffe7383
+[18:46:04] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=cede1e7a865e5f4146e2bc8a7ac0852a8cae61b1e3a7460afb51f343b882e9d8 submitted=a5447b15968948316cf39db0b77d9dd36a7e54ea17f91c0918e536906ffe7383 height=659 included=1'}}
+[18:46:04] [A] INFO:     127.0.0.1:20432 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:04] [A] INFO:     127.0.0.1:20433 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:04] [A] Mined header hash: 7d72b4796962e233cd033749d02f7bbcbd05ee50c56ca568cdbf85859aad319d
+[18:46:04] [A] INFO:     127.0.0.1:20434 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:04] [A] INFO:     127.0.0.1:20435 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:04] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=487f6b77ae2f8b1404fef86042b9fd0591e69fa04b65cbbad1801ab4f5a595d5 submitted=7d72b4796962e233cd033749d02f7bbcbd05ee50c56ca568cdbf85859aad319d height=660 included=1'}}
+[18:46:05] [A] INFO:     127.0.0.1:20436 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:05] [A] Mined header hash: d422b7ff7b95756e87a8d9c12c8ede1f9e4ea451f24bd6cab0a2bcd5dbfca617
+[18:46:05] [A] INFO:     127.0.0.1:20437 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:05] [A] INFO:     127.0.0.1:20438 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:05] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=e9e6f5ae5b35fd5937e76abad957ad2a72e852f4e62fe213dd1239262e7bd4e1 submitted=d422b7ff7b95756e87a8d9c12c8ede1f9e4ea451f24bd6cab0a2bcd5dbfca617 height=661 included=1'}}
+[18:46:05] [A] INFO:     127.0.0.1:20439 - "GET / HTTP/1.1" 404 Not Found
+[18:46:05] [A] INFO:     127.0.0.1:20442 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:05] [B] INFO:     127.0.0.1:20444 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:05] [A] INFO:     127.0.0.1:20445 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:46:05] [SUMMARY] A=660 B=660 mempoolA=0
+[18:46:05] [A] INFO:     127.0.0.1:20443 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:05] [A] Mined header hash: 04c00590ddd5bc80f5e084b1dea4fcc7dbd6d26d9060fbc988f5e74376dfa58e
+[18:46:05] [A] INFO:     127.0.0.1:20446 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:05] [A] INFO:     127.0.0.1:20447 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:06] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=2565ce6ccbb181fb17113c9fa2cb023e386fceb8ae850e2c94deda995f9bae06 submitted=04c00590ddd5bc80f5e084b1dea4fcc7dbd6d26d9060fbc988f5e74376dfa58e height=662 included=1'}}
+[18:46:06] [A] INFO:     127.0.0.1:20448 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:06] [A] Mined header hash: 5ccfc75cd2beec0f4da1631e3f892989dd403a0cf7a09ca8db33f1319d6b9af7
+[18:46:06] [A] INFO:     127.0.0.1:20449 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:06] [A] INFO:     127.0.0.1:20450 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:06] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=f822542aac8a4e4624bbfb0c1f1679845d69a2506e211e52177a06adba2ad53b submitted=5ccfc75cd2beec0f4da1631e3f892989dd403a0cf7a09ca8db33f1319d6b9af7 height=663 included=1'}}
+[18:46:07] [A] INFO:     127.0.0.1:20451 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:07] [A] Mined header hash: c7ba7ed6ee241824521b2a22089389cb4e6708a5e409a0640bb1b250cfa5c634
+[18:46:07] [A] INFO:     127.0.0.1:20452 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:07] [A] INFO:     127.0.0.1:20453 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:07] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=b972ca8e039c97fd2556e758c64342d5cbe07951c90a9a2ace427ee9815d520d submitted=c7ba7ed6ee241824521b2a22089389cb4e6708a5e409a0640bb1b250cfa5c634 height=664 included=1'}}
+[18:46:07] [A] INFO:     127.0.0.1:20454 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:07] [A] Mined header hash: c51530254767a7392015e918b5b13670ff993c0f79d1381d0159b6fb430fc79d
+[18:46:07] [A] INFO:     127.0.0.1:20455 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:07] [A] INFO:     127.0.0.1:20456 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:07] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=77b78ddfa0e2ff95c9ffd62aa2d189427527b63fbeb0adeb40307d445720014b submitted=c51530254767a7392015e918b5b13670ff993c0f79d1381d0159b6fb430fc79d height=665 included=1'}}
+[18:46:08] [A] INFO:     127.0.0.1:20457 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:08] [A] INFO:     127.0.0.1:20458 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:08] [A] Mined header hash: 2919b95469b785dff34f3a4a267324bf716cc7b92dd8aa7bc33fe7962030451c
+[18:46:08] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=63a9a14cc4a5d3be39b71447a47620439eb63afb43b75daa6aa677a97543c8ff submitted=2919b95469b785dff34f3a4a267324bf716cc7b92dd8aa7bc33fe7962030451c height=666 included=1'}}
+[18:46:08] [A] INFO:     127.0.0.1:20459 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:08] [A] INFO:     127.0.0.1:20460 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:08] [A] INFO:     127.0.0.1:20461 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:08] [EXP] INFO:     127.0.0.1:20462 - "GET / HTTP/1.1" 200 OK
+[18:46:08] [A] Mined header hash: af41990aa39616f5f21062a0edbe1e76f7daa97a4c9e9c5f649fa0c6688652bb
+[18:46:08] [A] INFO:     127.0.0.1:20464 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+ch: rebuilt=1a7317fad05d00b8b13e6764ead5dd581d13f84326409ce52955e448c4a3a59f submitted=af41990aa39616f5f21062a0edbe1e76f7daa97a4c9e9c5f649fa0c6688652bb height=667 included=1'}}
+[18:46:08] [EXP] INFO:     127.0.0.1:20462 - "GET /style.css HTTP/1.1" 200 OK
+[18:46:09] [EXP] INFO:     127.0.0.1:20462 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+[18:46:09] [A] INFO:     127.0.0.1:20465 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:09] [A] Mined header hash: cd3547b3e6a5205c4f6cbef6b5001e5057ff8600b3d204e7349f5d07bbd5bd71
+[18:46:09] [A] INFO:     127.0.0.1:20466 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:09] [A] INFO:     127.0.0.1:20467 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:09] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=48c6cf56f07c06dd67c45f065d1bf86e0074e4e69f0e994d85616be59dae58fe submitted=cd3547b3e6a5205c4f6cbef6b5001e5057ff8600b3d204e7349f5d07bbd5bd71 height=668 included=1'}}
+[18:46:10] [A] INFO:     127.0.0.1:20468 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:10] [A] Mined header hash: 56dc32debc3d2fd62a096020a783be300cc4feeb4987f153b570645895a69aac
+[18:46:10] [A] INFO:     127.0.0.1:20469 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:10] [A] INFO:     127.0.0.1:20470 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:10] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=2597839496dff55d763c4e12a859155edd3c7b753250f785c4e72bd8c452eaf4 submitted=56dc32debc3d2fd62a096020a783be300cc4feeb4987f153b570645895a69aac height=669 included=1'}}
+[18:46:10] [A] INFO:     127.0.0.1:20471 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:10] [A] Mined header hash: 77c7b85c951ffc160a954c7c0d166eab798e0af45f40022c287423e5d53a02fb
+[18:46:10] [A] INFO:     127.0.0.1:20472 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:10] [A] INFO:     127.0.0.1:20473 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:10] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=7567cb053ebf23f21f6eef6713bc4fed709994d385f0bd3114f9e4ac6ab8bfc9 submitted=77c7b85c951ffc160a954c7c0d166eab798e0af45f40022c287423e5d53a02fb height=670 included=1'}}
+[18:46:10] [A] INFO:     127.0.0.1:20474 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:10] [B] INFO:     127.0.0.1:20475 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:10] [A] INFO:     127.0.0.1:20476 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:46:10] [SUMMARY] A=669 B=669 mempoolA=0
+[18:46:10] [EXP] INFO:     127.0.0.1:20462 - "GET / HTTP/1.1" 200 OK
+[18:46:10] [EXP] INFO:     127.0.0.1:20462 - "GET /style.css HTTP/1.1" 304 Not Modified
+[18:46:11] [A] INFO:     127.0.0.1:20478 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:11] [A] Mined header hash: 0d0e06c78049a01a01e09cebcf6d3a212c94f0f28b6b39e1049326705536f873
+[18:46:11] [A] INFO:     127.0.0.1:20479 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:11] [A] INFO:     127.0.0.1:20480 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:11] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=0bcfa9bb29fb922dd602c3154fd86803f199c3fdfe47964f635ee502de4e08ad submitted=0d0e06c78049a01a01e09cebcf6d3a212c94f0f28b6b39e1049326705536f873 height=671 included=1'}}
+[18:46:11] [A] INFO:     127.0.0.1:20482 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:11] [A] Mined header hash: a192080be0ab9af5f8fe22d4845fb415ece1e70bb3740d89b203c964dfcb7159
+[18:46:11] [A] INFO:     127.0.0.1:20483 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:11] [A] INFO:     127.0.0.1:20484 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:11] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=8914576806dd5d0efe01173d275e5987695b607f52eead1c6b3080a9f5f8ba49 submitted=a192080be0ab9af5f8fe22d4845fb415ece1e70bb3740d89b203c964dfcb7159 height=672 included=1'}}
+[18:46:11] [EXP] INFO:     127.0.0.1:20462 - "GET /address/SMELLY_MONITOR_A HTTP/1.1" 200 OK
+[18:46:12] [A] INFO:     127.0.0.1:20485 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:12] [A] Mined header hash: c53aeb179493936dd235e8738a39c1fbd402a51dc7e0551357bdb07cd33af52b
+[18:46:12] [A] INFO:     127.0.0.1:20486 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:12] [A] INFO:     127.0.0.1:20487 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:12] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=c089441384bd70846f26841a3ff5b410b9613cc85954c33d794cb4153a045446 submitted=c53aeb179493936dd235e8738a39c1fbd402a51dc7e0551357bdb07cd33af52b height=673 included=1'}}
+[18:46:13] [A] INFO:     127.0.0.1:20488 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:13] [A] Mined header hash: 8b377caa7c490e67ed3fae63ceadb1bb688c1ef284e5c4cd8e5b4d028e8378cb
+[18:46:13] [A] INFO:     127.0.0.1:20489 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:13] [A] INFO:     127.0.0.1:20490 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:13] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=26edd617e2a7f52116f3ea43c4392fb9a386395761eb6270cfb62e1bd86f8a40 submitted=8b377caa7c490e67ed3fae63ceadb1bb688c1ef284e5c4cd8e5b4d028e8378cb height=674 included=1'}}
+[18:46:13] [A] INFO:     127.0.0.1:20491 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:13] [A] Mined header hash: 79acee578eea8e18f8cfa498c72d6b8ed46596d96ec07936bbe94c1ceb1af722
+[18:46:13] [A] INFO:     127.0.0.1:20492 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:13] [A] INFO:     127.0.0.1:20493 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:13] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=1360313b162eb85d12f520471ae8361bf1c20673dc8f1ee309647e75af1bca11 submitted=79acee578eea8e18f8cfa498c72d6b8ed46596d96ec07936bbe94c1ceb1af722 height=675 included=1'}}
+[18:46:14] [A] INFO:     127.0.0.1:20494 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:14] [A] INFO:     127.0.0.1:20495 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:14] [A] Mined header hash: 7e9a4234a3d279397e7879e6447742c6e6bd8819c1a425204acc5296830d31f4
+[18:46:14] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=c8b88e847a942e5f9a8d6a66913d9f0ee8adb70e9a2a1a75493f42b0ac6ebec8 submitted=7e9a4234a3d279397e7879e6447742c6e6bd8819c1a425204acc5296830d31f4 height=676 included=1'}}
+[18:46:14] [A] INFO:     127.0.0.1:20496 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:14] [A] INFO:     127.0.0.1:20497 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:14] [A] INFO:     127.0.0.1:20498 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:14] [A] Mined header hash: 24ab75cfda97185015a68fa968dfdc514b3890092ffb6d270340ad085af5d16e
+[18:46:14] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=df0483d5bfee1edebeabe307f345652785de55afbca242d8938ca09a102a2465 submitted=24ab75cfda97185015a68fa968dfdc514b3890092ffb6d270340ad085af5d16e height=677 included=1'}}
+[18:46:14] [A] INFO:     127.0.0.1:20499 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:15] [A] INFO:     127.0.0.1:20500 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:15] [A] Mined header hash: 332f50f028a88a86567c04cfa985d119f625bf907d0ae30c9efecbfd35be8dbb
+[18:46:15] [A] INFO:     127.0.0.1:20501 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:15] [A] INFO:     127.0.0.1:20502 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:15] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=7c2dfdbf8def1277f61a94f01c13115d439cc9ce39da67353381c9ede70feb2b submitted=332f50f028a88a86567c04cfa985d119f625bf907d0ae30c9efecbfd35be8dbb height=678 included=1'}}
+[18:46:15] [A] INFO:     127.0.0.1:20503 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:15] [B] INFO:     127.0.0.1:20506 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:15] [A] INFO:     127.0.0.1:20507 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:46:15] [SUMMARY] A=677 B=677 mempoolA=0
+[18:46:16] [A] INFO:     127.0.0.1:20509 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:16] [A] Mined header hash: 8a1a49ccf8de9d940161a9d4685ada2a1f033e2f4635c031b334500e136c702e
+[18:46:16] [A] INFO:     127.0.0.1:20510 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:16] [A] INFO:     127.0.0.1:20511 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:16] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=52da145322c36f8d28aac5fab9c354b564ae9703bd165ece67364fd823080b4c submitted=8a1a49ccf8de9d940161a9d4685ada2a1f033e2f4635c031b334500e136c702e height=679 included=1'}}
+[18:46:16] [A] INFO:     127.0.0.1:20512 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:16] [A] Mined header hash: 83a6c38376a7b202f06b874611f15469773e84a8c97e0f079f546d60e34f1c6f
+[18:46:16] [A] INFO:     127.0.0.1:20513 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:16] [A] INFO:     127.0.0.1:20514 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:16] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=806a8435d2ac0bc36dec648d487a251660d4bf9a0eae34cb62e5c474ef447a98 submitted=83a6c38376a7b202f06b874611f15469773e84a8c97e0f079f546d60e34f1c6f height=680 included=1'}}
+[18:46:17] [A] INFO:     127.0.0.1:20515 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:17] [A] Mined header hash: a1c32689b7f026d23f0c75fa3e3adbffb97d550c1eeddb1604bf9519753e9bf5
+[18:46:17] [A] INFO:     127.0.0.1:20516 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:17] [A] INFO:     127.0.0.1:20517 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:17] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=a48e0374904de23a098dfa59581248786a317013f8c1bbe27f20465b67e4d242 submitted=a1c32689b7f026d23f0c75fa3e3adbffb97d550c1eeddb1604bf9519753e9bf5 height=681 included=1'}}
+[18:46:17] [A] INFO:     127.0.0.1:20518 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:17] [A] Mined header hash: 29436865fb37231a31d41b0551b3a0f777d3a8f0d1413d29bacc627608f9ba99
+[18:46:17] [A] INFO:     127.0.0.1:20519 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:17] [A] INFO:     127.0.0.1:20520 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:17] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=d54f366b8cb1e9a3fcfcb37a82f683cf0f5b9b14a9476ef2763a9fd0c0caa9c5 submitted=29436865fb37231a31d41b0551b3a0f777d3a8f0d1413d29bacc627608f9ba99 height=682 included=1'}}
+[18:46:18] [A] INFO:     127.0.0.1:20521 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:18] [A] INFO:     127.0.0.1:20522 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:18] [A] Mined header hash: 0075eec33993eb71efa9ae6cf4b543bdd60a1c580ef87c2ba74783fbcb2ad439
+[18:46:18] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=3d981dde6bcb02a587a6f8f51cdaf45219fd0cf1290f1447ad04b93e09eca940 submitted=0075eec33993eb71efa9ae6cf4b543bdd60a1c580ef87c2ba74783fbcb2ad439 height=683 included=1'}}
+[18:46:18] [A] INFO:     127.0.0.1:20523 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:18] [A] INFO:     127.0.0.1:20524 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:19] [A] Mined header hash: b5fe0afda0a4e878bf1d27284ae3eb1eb358707d594d8381a59da107d5334374
+[18:46:19] [A] INFO:     127.0.0.1:20525 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:19] [A] INFO:     127.0.0.1:20526 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:19] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=4bb4272d677b1d0f31185546ce66cbcb578da4d880374c14cc464c979ef7c829 submitted=b5fe0afda0a4e878bf1d27284ae3eb1eb358707d594d8381a59da107d5334374 height=684 included=1'}}
+[18:46:19] [EXP] INFO:     127.0.0.1:20463 - "GET / HTTP/1.1" 200 OK
+[18:46:19] [EXP] INFO:     127.0.0.1:20463 - "GET /style.css HTTP/1.1" 304 Not Modified
+[18:46:19] [A] INFO:     127.0.0.1:20528 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:19] [A] Mined header hash: 2d7d5773eb22ade5db982a9920989aa7c746e71117096871ebf5a1b0765f05ba
+[18:46:19] [A] INFO:     127.0.0.1:20529 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:19] [A] INFO:     127.0.0.1:20530 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:19] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=017cd7ee9f0e2e0685f65a1f82d85f32e615b9a0d678ec209a5733dc8fdf43c4 submitted=2d7d5773eb22ade5db982a9920989aa7c746e71117096871ebf5a1b0765f05ba height=685 included=1'}}
+[18:46:20] [A] INFO:     127.0.0.1:20531 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:20] [A] Mined header hash: 82c4f203ba3b348c7405f258d25055424d4fd2bdf71ab47f9ab09d22feb11bdc
+[18:46:20] [A] INFO:     127.0.0.1:20532 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:20] [A] INFO:     127.0.0.1:20533 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:20] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=70433aa77be302fbe7a42e6dad3ae862a5c33f136bbf4819b669486377042e88 submitted=82c4f203ba3b348c7405f258d25055424d4fd2bdf71ab47f9ab09d22feb11bdc height=686 included=1'}}
+[18:46:20] [A] INFO:     127.0.0.1:20534 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:20] [A] Mined header hash: 0bb3d8a7b21ea8763610abed56969dcbe9942b669e39e68aedd84507759fe380
+[18:46:20] [A] INFO:     127.0.0.1:20535 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:20] [A] INFO:     127.0.0.1:20536 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:20] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=152c5d32f3f8930be05fe9a7173979fb1396a79922da2f07dac4261287356f69 submitted=0bb3d8a7b21ea8763610abed56969dcbe9942b669e39e68aedd84507759fe380 height=687 included=1'}}
+[18:46:20] [A] INFO:     127.0.0.1:20537 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:20] [B] INFO:     127.0.0.1:20538 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:20] [A] INFO:     127.0.0.1:20539 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:46:20] [SUMMARY] A=686 B=686 mempoolA=0
+[18:46:21] [A] INFO:     127.0.0.1:20540 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:21] [A] Mined header hash: b15c80b077991adbeb5231ade91da9f1f9a31c21e2d623a7b20cd1cb1c3716ac
+[18:46:21] [A] INFO:     127.0.0.1:20541 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:21] [A] INFO:     127.0.0.1:20542 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:21] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=b4fdabc606c82d73d4d80441475ec902d8cdc00d2c74fd351122a20712a991e9 submitted=b15c80b077991adbeb5231ade91da9f1f9a31c21e2d623a7b20cd1cb1c3716ac height=688 included=1'}}
+[18:46:21] [A] INFO:     127.0.0.1:20543 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:21] [A] Mined header hash: 6c4e0bf4493bbeff1f1929b3c7d0f040d6cf88e0f60bd1218d231c24cc4b4259
+[18:46:21] [A] INFO:     127.0.0.1:20544 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:22] [A] INFO:     127.0.0.1:20545 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:22] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=f5f78281373472b502b10fe17095c37dfce17aa104c5c0b36e7aa0c8b001f96b submitted=6c4e0bf4493bbeff1f1929b3c7d0f040d6cf88e0f60bd1218d231c24cc4b4259 height=689 included=1'}}
+[18:46:22] [A] INFO:     127.0.0.1:20546 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:22] [A] Mined header hash: b7dbaf6123df494b8193dc10d68db60d5b65fc07be9527cf63bc12b25b04a76a
+[18:46:22] [A] INFO:     127.0.0.1:20547 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:22] [A] INFO:     127.0.0.1:20548 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:22] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=c409abefbe88918e82a742ccaa5ecf88bfc77a60971be5f3989b92a8ff58ce2e submitted=b7dbaf6123df494b8193dc10d68db60d5b65fc07be9527cf63bc12b25b04a76a height=690 included=1'}}
+[18:46:23] [A] INFO:     127.0.0.1:20549 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:23] [A] Mined header hash: 516ccaf042973c092692910cf1fda2e1b45e187b60b5fd55cd0169c81d87813e
+[18:46:23] [A] INFO:     127.0.0.1:20550 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:23] [A] INFO:     127.0.0.1:20551 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:23] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=e414f4d5c66522cf07bf03cbe305cd71084c3d75a67ef5c766128d17f990f9e0 submitted=516ccaf042973c092692910cf1fda2e1b45e187b60b5fd55cd0169c81d87813e height=691 included=1'}}
+[18:46:23] [A] INFO:     127.0.0.1:20552 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:23] [A] Mined header hash: a73e87a18ab7275ad9846a6a98847c3325a15de1fc5866d5b07e8c195b19f1f9
+[18:46:23] [A] INFO:     127.0.0.1:20553 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:23] [A] INFO:     127.0.0.1:20554 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:23] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=346f54a6a9b58debec26aa205775e0eeed7c08a00ebdcffc69e97df7e970a84c submitted=a73e87a18ab7275ad9846a6a98847c3325a15de1fc5866d5b07e8c195b19f1f9 height=692 included=1'}}
+[18:46:24] [A] INFO:     127.0.0.1:20555 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:24] [A] Mined header hash: 1adf60f3c14a68d41522cd3db89fcef5f3c60e5db79bf196ba460e01998cce8c
+[18:46:24] [A] INFO:     127.0.0.1:20556 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:24] [A] INFO:     127.0.0.1:20557 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:24] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=a7cc0aae7db2bc0e23ec948529b3f3f584bcf6ee2b394a71e23ea2581294baf5 submitted=1adf60f3c14a68d41522cd3db89fcef5f3c60e5db79bf196ba460e01998cce8c height=693 included=1'}}
+[18:46:24] [A] INFO:     127.0.0.1:20558 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:24] [A] Mined header hash: 28facd8210ea4f3fa4183c0b46bada6983cfc58a793e87d884f074697eb0b8c1
+[18:46:24] [A] INFO:     127.0.0.1:20559 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:25] [A] INFO:     127.0.0.1:20560 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:25] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=c8f0fe14a7ff2733c594e196d601522f88fc0a76aa3c41c73a5a129ad4fcdf4e submitted=28facd8210ea4f3fa4183c0b46bada6983cfc58a793e87d884f074697eb0b8c1 height=694 included=1'}}
+[18:46:25] [A] INFO:     127.0.0.1:20561 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:25] [A] Mined header hash: e5ca6a65f0b523e15e48d7255ec9adf7f93063e46adb443496b2c87f26a20cc0
+[18:46:25] [A] INFO:     127.0.0.1:20562 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:25] [A] INFO:     127.0.0.1:20563 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:25] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=101ad4babea281d70f300cc142f36121f6f4bc59ecab0994f02f3a6940a17970 submitted=e5ca6a65f0b523e15e48d7255ec9adf7f93063e46adb443496b2c87f26a20cc0 height=695 included=1'}}
+[18:46:25] [A] INFO:     127.0.0.1:20564 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:25] [B] INFO:     127.0.0.1:20565 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:25] [A] INFO:     127.0.0.1:20566 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:46:25] [SUMMARY] A=694 B=694 mempoolA=0
+[18:46:26] [A] INFO:     127.0.0.1:20567 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:26] [A] Mined header hash: bb5ed23c9307e374bc9b2d7b5b7eca16f29f603d591e13290a8f4b176ad9eee5
+[18:46:26] [A] INFO:     127.0.0.1:20568 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:26] [A] INFO:     127.0.0.1:20569 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:26] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=609b3aa0eff954dadccc99bf83446e93807d6b690738fdc4e649462f6537316e submitted=bb5ed23c9307e374bc9b2d7b5b7eca16f29f603d591e13290a8f4b176ad9eee5 height=696 included=1'}}
+[18:46:26] [A] INFO:     127.0.0.1:20570 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:26] [A] Mined header hash: ce91cb58a2310d32fb88d45bb8f3752c321c403103fa19da7a5f7408b5335238
+[18:46:26] [A] INFO:     127.0.0.1:20571 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:26] [A] INFO:     127.0.0.1:20572 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:26] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=3b332c6910d68c6d43e82905908a76d11f10a08ffedcdf89f4ca0dc800098b6a submitted=ce91cb58a2310d32fb88d45bb8f3752c321c403103fa19da7a5f7408b5335238 height=697 included=1'}}
+[18:46:27] Shutting down children...

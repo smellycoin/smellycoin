@@ -1,0 +1,10 @@
+{
+  "network": {
+    "rpc_host": "127.0.0.1",
+    "rpc_port": 28445
+  },
+  "miner": {
+    "default_address": "sigma",
+    "threads": 20
+  }
+}

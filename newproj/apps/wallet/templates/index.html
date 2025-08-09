@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>SMELLY Web Wallet</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+  <div class="header">SMELLY Web Wallet</div>
+  <div class="container">
+    <div class="card">
+      <h2>Create Wallet</h2>
+      <form method="post" action="/create">
+        <label>Name</label>
+        <input name="name" value="Main"/>
+        <label>Language</label>
+        <select name="language">
+          <option>english</option>
+        </select>
+        <button type="submit">Create</button>
+      </form>
+      <div class="notice">Mnemonic will be shown once. Store securely.</div>
+    </div>
+
+    <div class="card">
+      <h2>Restore Wallet</h2>
+      <form method="post" action="/restore">
+        <label>Name</label>
+        <input name="name" value="Restored"/>
+        <label>Mnemonic</label>
+        <input name="mnemonic" placeholder="word1 word2 ..."/>
+        <button type="submit">Restore</button>
+      </form>
+    </div>
+
+    {% if account %}
+    <div class="card">
+      <h2>Account</h2>
+      <div>ID: {{account.id}}</div>
+      <div>Name: {{account.name}}</div>
+      {% if primary %}
+      <div>Primary Address:</div>
+      <div class="addr">{{primary.address}}</div>
+      <div>Balance: {{primary.balance}}</div>
+      {% endif %}
+      <form method="post" action="/new_subaddress">
+        <input type="hidden" name="account_id" value="{{account.id}}"/>
+        <label>Major</label>
+        <input name="major" value="0"/>
+        <label>Minor</label>
+        <input name="minor" value="1"/>
+        <label>Label</label>
+        <input name="label" value=""/>
+        <button type="submit">Create subaddress</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Subaddresses</h2>
+      <table class="table">
+        <thead><tr><th>ID</th><th>Index</th><th>Label</th><th>Address</th></tr></thead>
+        <tbody>
+          {% for s in subaddresses %}
+          <tr>
+            <td>{{s.id}}</td>
+            <td>{{s.major}}/{{s.minor}}</td>
+            <td>{{s.label}}</td>
+            <td class="addr">{{s.address}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>

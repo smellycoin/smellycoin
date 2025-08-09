@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- Loading overlay -->
+<div id="loader" class="fixed inset-0 bg-black/95 z-50 flex items-center justify-center">
+  <div class="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4" x-init="$nextTick(()=>document.getElementById('loader')?.classList.add('hidden'))">
+  <section class="card p-5 lg:col-span-2">
+    <h1 class="text-2xl font-extrabold text-yellow-400 mb-4">Dashboard</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="card p-4">
+        <h2 class="text-yellow-400 text-xl font-bold mb-2">Account</h2>
+        <div class="text-sm text-gray-300">Account ID</div>
+        <div class="font-bold">{{ account_id or '-' }}</div>
+        <div class="mt-2 text-sm text-gray-300">Primary Address</div>
+        <div class="mono bg-black/30 p-2 rounded">{{ account_address or '-' }}</div>
+      </div>
+      <div class="card p-4" x-data="balanceWidget('{{ account_address or '' }}')">
+        <h2 class="text-yellow-400 text-xl font-bold mb-2">Balance</h2>
+        <div class="text-sm text-gray-300">Confirmed</div>
+        <div class="text-2xl font-extrabold"><span x-text="confirmed.toFixed(6)"></span> <span class="text-yellow-400">SMELLY</span></div>
+        <div class="mt-2 text-sm text-gray-300">Unconfirmed</div>
+        <div class="text-lg font-bold"><span x-text="unconfirmed.toFixed(6)"></span> <span class="text-yellow-400">SMELLY</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card p-5">
+    <h2 class="text-yellow-400 text-xl font-bold mb-2">Quick Actions</h2>
+    <div class="flex flex-col gap-2">
+      <a class="brand px-3 py-2 rounded text-center font-semibold" href="/send">Send</a>
+      <a class="brand px-3 py-2 rounded text-center font-semibold" href="/addresses">Addresses</a>
+      <a class="brand px-3 py-2 rounded text-center font-semibold" href="/utxos">UTXOs</a>
+      <a class="brand px-3 py-2 rounded text-center font-semibold" href="/txs">Transactions</a>
+    </div>
+  </section>
+</div>
+
+<div class="card p-5 mt-4" x-data="recentBlocks()">
+  <div class="flex items-center justify-between">
+    <h2 class="text-yellow-400 text-xl font-bold mb-2">Recent Blocks</h2>
+    <a class="nav-link" href="/blocks">View All</a>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="min-w-full">
+      <thead><tr class="text-left text-sm text-gray-300"><th class="py-2 pr-4">Height</th><th class="py-2 pr-4">Hash</th><th class="py-2 pr-4">Time</th><th class="py-2 pr-4">Miner</th><th class="py-2 pr-4">Tx</th></tr></thead>
+      <tbody class="text-sm">
+        <template x-for="b in blocks" :key="b.hash">
+          <tr class="border-t border-yellow-900/30">
+            <td class="py-2 pr-4" x-text="b.height"></td>
+            <td class="py-2 pr-4 mono" x-text="b.hash.slice(0,24) + '...'"></td>
+            <td class="py-2 pr-4" x-text="b.timestamp"></td>
+            <td class="py-2 pr-4 mono" x-text="b.miner.slice(0,18) + '...'"></td>
+            <td class="py-2 pr-4" x-text="b.tx_count"></td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+function balanceWidget(addr) {
+  return {
+    confirmed: 0.0, unconfirmed: 0.0,
+    async init() { this.refresh(); setInterval(()=>this.refresh(), 10000); },
+    async refresh() {
+      if (!addr) return;
+      try {
+        const b = await fetch('/api/v1/address/' + addr + '/balance').then(r=>r.json());
+        this.confirmed = b.balance || 0;
+        this.unconfirmed = 0; // placeholder; can be improved with mempool diffing
+      } catch(e){}
+    }
+  }
+}
+function recentBlocks() {
+  return {
+    blocks: [],
+    async init(){ this.refresh(); setInterval(()=>this.refresh(), 10000); },
+    async refresh() {
+      try {
+        // reuse explorer RPC endpoints exposed by node RPC server
+        const h = await fetch('/rpc/get_height').then(r=>r.json());
+        const height = h.height ?? -1;
+        const count = Math.min(10, height + 1);
+        let list = [];
+        for (let i=0;i<count;i++){
+          const hh = height - i;
+          if (hh < 0) break;
+          const hdr = await fetch('/rpc/get_header_by_height/' + hh).then(r=>r.json());
+          list.push({height: hdr.height, hash: hdr.hash, timestamp: hdr.timestamp, miner: hdr.miner, tx_count: hdr.tx_count});
+        }
+        this.blocks = list;
+      } catch(e){}
+    }
+  }
+}
+</script>
+{% endblock %}

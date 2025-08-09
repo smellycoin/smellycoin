@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>SMELLY Explorer</title>
+  <meta http-equiv="refresh" content="10"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <script>
+    // Hide loader once DOM is ready
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const el = document.getElementById('loader'); if(el) el.classList.add('hidden');
+    });
+  </script>
+</head>
+<body>
+  <div id="loader" class="loader-overlay"><div class="spinner"></div></div>
+  <div class="header">
+    <div>SMELLY Explorer</div>
+    <div class="small"><a href="/">Home</a> | <a href="/mempool">Mempool</a> | <a href="/admin/fairness">Fairness</a></div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="card">
+        <h2>Search</h2>
+        <form method="get" action="/search" class="searchbar">
+          <input type="text" name="q" placeholder="Block height / block hash / tx id / Address" value="{{q or ''}}"/>
+          <button type="submit">Search</button>
+        </form>
+        <div class="notice">Examples: 1003, a1b2c3..., txid..., SMELLY_...</div>
+        {% if search_error %}<div class="notice">Error: {{search_error}}</div>{% endif %}
+        {% if search_result %}
+          <div style="margin-top:12px">
+            {% if search_result.type == 'block' %}
+              <span class="badge">Block</span>
+              <a href="/block/{{search_result.hash}}">{{search_result.title}}</a>
+            {% elif search_result.type == 'tx' %}
+              <span class="badge">Tx</span> <a class="mono" href="/tx/{{search_result.id}}">{{search_result.id}}</a>
+            {% elif search_result.type == 'address' %}
+              <span class="badge">Address</span> <a class="mono" href="/address/{{search_result.address}}">{{search_result.address}}</a>
+            {% else %}
+              <span class="badge">Not found</span> <span class="small">No match for '{{q}}'</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="card">
+        <h2>Chain Overview</h2>
+        <div>Height: {{height}}</div>
+        <div>Latest: <span class="mono">{{headers[0].hash if headers else ''}}</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Recent Blocks</h2>
+      <table class="table">
+        <thead><tr><th>Height</th><th>Hash</th><th>Time</th><th>Miner</th><th>Tx</th></tr></thead>
+        <tbody>
+        {% for h in headers %}
+          <tr>
+            <td><a href="/block/{{h.hash}}">{{h.height}}</a></td>
+            <td class="mono"><a href="/block/{{h.hash}}">{{h.hash[:24]}}...</a></td>
+            <td>{{h.timestamp}}</td>
+            <td class="mono"><a href="/address/{{h.miner}}">{{h.miner[:22]}}...</a></td>
+            <td>{{h.tx_count}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

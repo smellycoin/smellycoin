@@ -1,0 +1,48 @@
+[18:46:29] Logging to E:\newproj\logs\monitor_20250805_184629.log
+[18:46:30] Started Node A (RPC 28445, P2P 28447) PID=54332
+[18:46:30] Started Node B (RPC 38555, P2P 38557) PID=58028
+[18:46:30] Started Explorer PID=66200
+[18:46:31] [EXP] E:\newproj\apps\explorer\server.py:363: DeprecationWarning:
+[18:46:31] [EXP]         on_event is deprecated, use lifespan event handlers instead.
+[18:46:31] [EXP] 
+[18:46:31] [EXP]         Read more about it in the
+[18:46:31] [EXP]         [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+[18:46:31] [EXP] 
+[18:46:31] [EXP]   @app.on_event("startup")
+[18:46:31] [EXP] INFO:     Started server process [66200]
+[18:46:31] [EXP] INFO:     Waiting for application startup.
+[18:46:31] [EXP] INFO:     Application startup complete.
+[18:46:31] [EXP] INFO:     Uvicorn running on http://127.0.0.1:28448 (Press CTRL+C to quit)
+[18:46:31] [B] INFO:     Started server process [58028]
+[18:46:31] [B] INFO:     Waiting for application startup.
+[18:46:31] [B] INFO:     Application startup complete.
+[18:46:31] [A] INFO:     Started server process [54332]
+[18:46:31] [A] INFO:     Waiting for application startup.
+[18:46:31] [B] INFO:     Uvicorn running on http://127.0.0.1:38555 (Press CTRL+C to quit)
+[18:46:31] [A] INFO:     Application startup complete.
+[18:46:31] [A] INFO:     Uvicorn running on http://127.0.0.1:28445 (Press CTRL+C to quit)
+[18:46:31] [EXP] INFO:     127.0.0.1:20575 - "GET / HTTP/1.1" 200 OK
+[18:46:31] [EXP] INFO:     127.0.0.1:20575 - "GET /style.css HTTP/1.1" 200 OK
+[18:46:31] [A] SMELLY Node RPC + P2P started.
+[18:46:31] [A] Mining enabled. Submitting header-only blocks...
+[18:46:31] [A] P2P listening on 127.0.0.1:28447
+[18:46:31] [A] INFO:     127.0.0.1:20577 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:31] [B] SMELLY Node RPC + P2P started.
+[18:46:31] [B] P2P listening on 127.0.0.1:38557
+[18:46:31] [B] INFO:     127.0.0.1:20587 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:31] [A] INFO:     127.0.0.1:20588 - "POST /rpc/p2p/connect?addr=127.0.0.1%3A38557 HTTP/1.1" 200 OK
+[18:46:31] A -> B connect OK
+[18:46:31] [B] P2P conn error: 127.0.0.1:20589 [WinError 10054] An existing connection was forcibly closed by the remote host
+[18:46:31] B -> A connect OK
+[18:46:31] [B] INFO:     127.0.0.1:20590 - "POST /rpc/p2p/connect?addr=127.0.0.1%3A28447 HTTP/1.1" 200 OK
+[18:46:31] [A] P2P conn error: 127.0.0.1:20591 [WinError 10053] An established connection was aborted by the software in your host machine
+[18:46:31] [A] INFO:     127.0.0.1:20592 - "POST /rpc/get_work HTTP/1.1" 200 OK
+[18:46:31] [A] INFO:     127.0.0.1:20593 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:31] [B] INFO:     127.0.0.1:20594 - "GET /rpc/get_height HTTP/1.1" 200 OK
+[18:46:31] [A] INFO:     127.0.0.1:20595 - "POST /rpc/submit_work HTTP/1.1" 400 Bad Request
+[18:46:31] [MINER] submit_work result: {'detail': {'accepted': False, 'error': 'merkle-mismatch: rebuilt=3b332c6910d68c6d43e82905908a76d11f10a08ffedcdf89f4ca0dc800098b6a submitted=ce91cb58a2310d32fb88d45bb8f3752c321c403103fa19da7a5f7408b5335238 height=697 included=1'}}
+[18:46:31] [A] INFO:     127.0.0.1:20596 - "GET /rpc/mempool HTTP/1.1" 200 OK
+[18:46:31] [SUMMARY] A=696 B=696 mempoolA=0
+[18:46:31] [A] INFO:     127.0.0.1:20584 - "POST /rpc/mine_one HTTP/1.1" 200 OK
+[18:46:32] Shutting down children...
+[18:46:34] Monitor finished.
